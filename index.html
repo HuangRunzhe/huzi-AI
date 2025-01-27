@@ -4,53 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI 户晨风</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px 10%;
-            text-align: center;
-        }
-        main {
-            padding: 20px 10%;
-        }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #2c3e50;
-            color: white;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <header>
-        <h1>AI 户晨风</h1>
-        <p>一个模仿户晨风风格的人工智能模型</p>
+<body class="bg-gray-900 text-gray-100 font-sans">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-500 to-indigo-600 py-6">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-extrabold tracking-tight">AI 户晨风</h1>
+            <p class="mt-2 text-lg">一个模仿户晨风风格的人工智能模型</p>
+        </div>
     </header>
-    <main>
-        <h2>关于模型</h2>
-        <p>AI 户晨风是一款基于人工智能技术开发的模型，能够模仿户晨风先生的风格，以幽默风趣且犀利的方式回答用户的提问。</p>
-        <h2>模型特点</h2>
-        <ul>
-            <li>幽默风趣</li>
-            <li>犀利见解</li>
-            <li>个性化回答</li>
-        </ul>
-        <h2>上线计划</h2>
-        <p>目前正在准备中，后续将上线对话功能，敬请期待！</p>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <section class="text-center">
+            <h2 class="text-3xl font-bold mb-6">关于模型</h2>
+            <p class="text-gray-300 leading-relaxed text-lg">
+                AI 户晨风是一款基于最新人工智能技术开发的模型，能够模仿户晨风先生的风格，
+                以幽默风趣且犀利的方式回答您的问题。
+            </p>
+        </section>
+
+        <section class="mt-12">
+            <h2 class="text-3xl font-bold text-center mb-6">模型特点</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4">幽默风趣</h3>
+                    <p class="text-gray-400">AI 户晨风总是用幽默的语言化解问题，让对话变得轻松愉快。</p>
+                </div>
+                <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4">犀利见解</h3>
+                    <p class="text-gray-400">模型能够从不同角度看问题，给出深刻的见解。</p>
+                </div>
+                <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4">个性化回答</h3>
+                    <p class="text-gray-400">模型根据提问内容生成专属的回答，模拟户晨风的语气和风格。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mt-12">
+            <h2 class="text-3xl font-bold text-center mb-6">上线计划</h2>
+            <p class="text-gray-300 text-center">
+                当前正在准备模型优化，预计在 <span class="text-indigo-400 font-semibold">2025年第一季度</span> 上线对话功能！
+            </p>
+        </section>
     </main>
-    <footer>
-        <p>© 2025 AI 户晨风 | huchenfeng.cfd</p>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-4">
+        <div class="container mx-auto text-center">
+            <p class="text-gray-500">&copy; 2025 AI 户晨风 | <a href="https://huchenfeng.cfd" class="text-indigo-400 hover:underline">huchenfeng.cfd</a></p>
+        </div>
     </footer>
 </body>
 </html>
