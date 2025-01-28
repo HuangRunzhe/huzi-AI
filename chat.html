@@ -5,6 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI 户晨风 - 对话功能</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #1a1a2e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .message {
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            color: #fff;
+        }
+        .user-message {
+            background-color: #2563eb;
+            text-align: right;
+        }
+        .bot-message {
+            background-color: #374151;
+            text-align: left;
+        }
+    </style>
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans">
 
@@ -16,14 +40,18 @@
         </div>
     </header>
 
-    <!-- Gradio Interface -->
+    <!-- Chat Interface -->
     <main class="container mx-auto px-4 py-12">
-        <iframe
-            src="http://ai.huchenfeng.cfd/" 
-            width="100%"
-            height="600"
-            style="border: none; border-radius: 8px; overflow: hidden;">
-        </iframe>
+        <div class="chat-container">
+            <div id="chat-box" class="mb-4" style="max-height: 400px; overflow-y: auto;">
+                <!-- 动态插入聊天消息 -->
+            </div>
+            <div class="flex items-center">
+                <input id="user-input" type="text" placeholder="请输入你的问题..."
+                       class="flex-grow border rounded-lg px-4 py-2 mr-2 bg-gray-800 text-gray-200" />
+                <button id="send-button" class="bg-blue-500 text-white px-4 py-2 rounded-lg">发送</button>
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
@@ -32,5 +60,50 @@
             <p class="text-gray-500">&copy; 2025 AI 户晨风 | <a href="https://huchenfeng.cfd" class="text-indigo-400 hover:underline">huchenfeng.cfd</a></p>
         </div>
     </footer>
+
+    <script>
+        const chatBox = document.getElementById("chat-box");
+        const userInput = document.getElementById("user-input");
+        const sendButton = document.getElementById("send-button");
+
+        function addMessage(content, isUser) {
+            const messageDiv = document.createElement("div");
+            messageDiv.className = `message ${isUser ? "user-message" : "bot-message"}`;
+            messageDiv.innerText = content;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+            addMessage(message, true);
+            userInput.value = "";
+
+            try {
+                const response = await fetch("https://ai.huchenfeng.cfd/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ message })
+                });
+                const data = await response.json();
+                if (data.response) {
+                    addMessage(data.response, false);
+                } else {
+                    addMessage("抱歉，我无法理解你的问题。", false);
+                }
+            } catch (error) {
+                addMessage("服务器错误，请稍后再试。", false);
+            }
+        }
+
+        sendButton.addEventListener("click", sendMessage);
+        userInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") sendMessage();
+        });
+    </script>
+
 </body>
 </html>

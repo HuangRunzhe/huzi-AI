@@ -1,7 +1,16 @@
-import json
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from openai import OpenAI
 from difflib import SequenceMatcher
-import gradio as gr
+import json
+import logging
+
+# 配置日志
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# 初始化 Flask 应用
+app = Flask(__name__)
+CORS(app)  # 启用 CORS
 
 # 初始化 DeepSeek 客户端
 client = OpenAI(api_key="sk-874783538ff04df5bcf67aa3fec598a7", base_url="https://api.deepseek.com")
@@ -79,26 +88,23 @@ def chat_with_huchenfeng(user_input):
 
     return generate_response_with_deepseek(user_input, predefined_attitude)
 
-# Gradio 界面定义
-def gradio_interface(user_input):
-    """通过 Gradio 实现用户与 AI 对话的界面"""
-    return chat_with_huchenfeng(user_input)
+# 定义聊天 API
+@app.route("/chat", methods=["POST"])
+def chat():
+    try:
+        data = request.json
+        logging.info(f"Received user input: {data}")
+        user_input = data.get("message", "").strip()
+        if not user_input:
+            return jsonify({"response": "请输入有效的问题"}), 400
 
-# 创建 Gradio 接口
-iface = gr.Interface(
-    fn=gradio_interface,
-    inputs="text",
-    outputs="text",
-    title="AI 户晨风对话系统",
-    description="与 AI 户晨风实时互动，获取幽默犀利的回答！"
-)
+        response = chat_with_huchenfeng(user_input)
+        logging.info(f"Generated response: {response}")
+        return jsonify({"response": response})
+    except Exception as e:
+        logging.error(f"Error occurred: {e}", exc_info=True)
+        return jsonify({"response": "服务器出现问题，请稍后再试。"}), 500
 
-# 启动 Gradio 应用
+# 启动 Flask 应用
 if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 7860))
-    iface.launch(
-        server_name="0.0.0.0",
-        server_port=port,
-        share=True  # 生成公共链接（带 HTTPS），可用于 iframe
-    )
+    app.run(host="0.0.0.0", port=7860, debug=False)
