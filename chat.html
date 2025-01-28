@@ -6,79 +6,203 @@
     <title>AI 户晨风 - 对话功能</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #1f2937;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
         .chat-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #1a1a2e;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
+        }
+
+        #chat-box {
+            width: 100%;
+            max-width: 700px;
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px;
+            padding-bottom: 60px; /* 为底部输入框留出空间 */
+            border-radius: 8px;
+            background-color: #2d3748;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .message-row.user {
+            flex-direction: row-reverse;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 10px;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 10px 15px;
             border-radius: 10px;
+            word-wrap: break-word;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .message {
-            padding: 10px 15px;
-            margin-bottom: 10px;
-            border-radius: 10px;
-            color: #fff;
-        }
-        .user-message {
+
+        .message.user {
             background-color: #2563eb;
-            text-align: right;
+            color: white;
+            border-bottom-right-radius: 0;
         }
-        .bot-message {
+
+        .message.bot {
             background-color: #374151;
-            text-align: left;
+            color: white;
+            border-bottom-left-radius: 0;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 700px;
+            padding: 10px;
+            background-color: #2d3748;
+            border-radius: 8px;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .input-field {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border-radius: 8px;
+            background-color: #374151;
+            color: white;
+            border: none;
+            outline: none;
+            margin-right: 10px;
+        }
+
+        .input-field::placeholder {
+            color: #9ca3af;
+        }
+
+        .send-button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .send-button:hover {
+            background-color: #1d4ed8;
         }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 font-sans">
+<body>
 
     <!-- Header -->
-    <header class="bg-gradient-to-r from-blue-500 to-indigo-600 py-6">
-        <div class="container mx-auto text-center">
-            <h1 class="text-4xl font-extrabold tracking-tight">AI 户晨风 - 对话功能</h1>
-            <p class="mt-2 text-lg">实时与 AI 户晨风互动，获取犀利幽默的回答</p>
-        </div>
+    <header class="bg-gradient-to-r from-blue-500 to-indigo-600 py-6 text-center">
+        <h1 class="text-4xl font-extrabold tracking-tight">AI 户晨风 - 对话功能</h1>
+        <p class="mt-2 text-lg">实时与 AI 户晨风互动，获取犀利幽默的回答</p>
     </header>
 
     <!-- Chat Interface -->
-    <main class="container mx-auto px-4 py-12">
-        <div class="chat-container">
-            <div id="chat-box" class="mb-4" style="max-height: 400px; overflow-y: auto;">
-                <!-- 动态插入聊天消息 -->
-            </div>
-            <div class="flex items-center">
-                <input id="user-input" type="text" placeholder="请输入你的问题..."
-                       class="flex-grow border rounded-lg px-4 py-2 mr-2 bg-gray-800 text-gray-200" />
-                <button id="send-button" class="bg-blue-500 text-white px-4 py-2 rounded-lg">发送</button>
-            </div>
+    <div class="chat-container">
+        <div id="chat-box"></div>
+        <div class="input-container">
+            <input id="user-input" type="text" placeholder="不要寒暄，请直接发表你的观点..." class="input-field" />
+            <button id="send-button" class="send-button">发送</button>
         </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 py-4">
-        <div class="container mx-auto text-center">
-            <p class="text-gray-500">&copy; 2025 AI 户晨风 | <a href="https://huchenfeng.cfd" class="text-indigo-400 hover:underline">huchenfeng.cfd</a></p>
-        </div>
-    </footer>
+    </div>
 
     <script>
         const chatBox = document.getElementById("chat-box");
         const userInput = document.getElementById("user-input");
         const sendButton = document.getElementById("send-button");
 
+        const userAvatar = "/static/img/bu_photo.jpg"; // 用户头像
+        const botAvatar = "/static/img/hcf_portrait.jpg";  // AI 户晨风头像
+
+        let isAwaitingResponse = false; // 是否等待 AI 回复的标志
+
+        // 加载本地存储的聊天记录
+        function loadChatHistory() {
+            const history = localStorage.getItem("chatHistory");
+            if (history) {
+                JSON.parse(history).forEach(({ content, isUser }) => {
+                    addMessage(content, isUser);
+                });
+            }
+        }
+
+        // 添加消息到聊天框
         function addMessage(content, isUser) {
+            const messageRow = document.createElement("div");
+            messageRow.className = `message-row ${isUser ? "user" : "bot"}`;
+
+            const avatar = document.createElement("img");
+            avatar.className = "avatar";
+            avatar.src = isUser ? userAvatar : botAvatar;
+
             const messageDiv = document.createElement("div");
-            messageDiv.className = `message ${isUser ? "user-message" : "bot-message"}`;
+            messageDiv.className = `message ${isUser ? "user" : "bot"}`;
             messageDiv.innerText = content;
-            chatBox.appendChild(messageDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
+
+            messageRow.appendChild(avatar);
+            messageRow.appendChild(messageDiv);
+            chatBox.appendChild(messageRow);
+            chatBox.scrollTop = chatBox.scrollHeight; // 保持滚动到底部
+
+            // 存储消息记录
+            saveChatHistory(content, isUser);
+        }
+
+        // 存储消息记录到 localStorage
+        function saveChatHistory(content, isUser) {
+            let history = localStorage.getItem("chatHistory");
+            history = history ? JSON.parse(history) : [];
+            history.push({ content, isUser });
+            localStorage.setItem("chatHistory", JSON.stringify(history));
+        }
+
+        // 清除聊天记录（如果需要）
+        function clearChatHistory() {
+            localStorage.removeItem("chatHistory");
+            chatBox.innerHTML = "";
         }
 
         async function sendMessage() {
+            if (isAwaitingResponse) {
+                alert("请等待 AI 回复后再发送下一条消息！");
+                return;
+            }
+
             const message = userInput.value.trim();
             if (!message) return;
             addMessage(message, true);
             userInput.value = "";
+
+            isAwaitingResponse = true; // 锁定用户输入
 
             try {
                 const response = await fetch("https://ai.huchenfeng.cfd/chat", {
@@ -96,6 +220,8 @@
                 }
             } catch (error) {
                 addMessage("服务器错误，请稍后再试。", false);
+            } finally {
+                isAwaitingResponse = false; // 解锁用户输入
             }
         }
 
@@ -103,6 +229,9 @@
         userInput.addEventListener("keydown", (e) => {
             if (e.key === "Enter") sendMessage();
         });
+
+        // 页面加载时恢复聊天记录
+        loadChatHistory();
     </script>
 
 </body>
