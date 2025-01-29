@@ -153,10 +153,18 @@
 
         let isAwaitingResponse = false; // 是否等待 AI 回复的标志
 
+        // 生成唯一的会话 ID
+        const sessionID = localStorage.getItem("sessionID") || generateSessionID();
+        localStorage.setItem("sessionID", sessionID);
+
+        function generateSessionID() {
+            return "session-" + Math.random().toString(36).substring(2, 15);
+        }
+
         // 加载后端存储的聊天记录
         async function loadChatHistory() {
             try {
-                const response = await fetch("https://ai.huchenfeng.cfd/history", {
+                const response = await fetch(`https://ai.huchenfeng.cfd/history?sessionID=${sessionID}`, {
                     method: "GET",
                 });
                 const data = await response.json();
@@ -210,7 +218,7 @@
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ message })
+                    body: JSON.stringify({ sessionID, message })
                 });
                 const data = await response.json();
                 if (data.response) {

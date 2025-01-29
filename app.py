@@ -4,6 +4,7 @@ from openai import OpenAI
 from difflib import SequenceMatcher
 import json
 import logging
+import os
 from datetime import datetime
 
 # 配置日志
@@ -28,8 +29,10 @@ HUCHENFENG_ATTITUDES = {
     "大学开放": "支持大学开放"
 }
 
-# 聊天记录存储文件
-CHAT_HISTORY_FILE = "chat_history.json"
+# 聊天记录存储目录
+CHAT_HISTORY_DIR = "chat_history"
+os.makedirs(CHAT_HISTORY_DIR, exist_ok=True)  # 创建目录（如果不存在）
+
 
 # 知识库搜索函数
 def search_knowledge_base(user_input, threshold=0.7):
@@ -41,14 +44,14 @@ def search_knowledge_base(user_input, threshold=0.7):
         if similarity > highest_similarity:
             highest_similarity = similarity
             best_match = entry
-    # 如果相似度超过阈值，返回匹配的回答和对应条目
     if highest_similarity >= threshold:
         return f"（来自知识库）{best_match['response']}", best_match
     return None, None
 
-# 动态生成函数
+
+# 调用 DeepSeek 生成回答
 def generate_response_with_deepseek(user_input, predefined_attitude=None):
-    """调用 DeepSeek 实时生成回答，并注入明确态度"""
+    """调用 DeepSeek 生成回答，并注入明确态度"""
     prompt = f"""
     你是户晨风，一位幽默且犀利的评论员。以下是你的核心观点：
     1. 支持高铁私有化
@@ -69,21 +72,21 @@ def generate_response_with_deepseek(user_input, predefined_attitude=None):
             ],
             stream=False,
             temperature=0.7,
-            max_tokens=300,  # 增加最大生成字数限制
-            stop=["\n"]  # 设置回答结束标记，防止回答过长
+            max_tokens=300,
+            stop=["\n"]
         )
         return f"（来自实时生成）{response.choices[0].message.content.strip()}"
     except Exception as e:
         return f"生成回答失败，错误信息：{e}"
 
-# 综合回答逻辑
+
+# 生成 AI 回答
 def chat_with_huchenfeng(user_input):
-    # Step 1: 在知识库中查找回答
+    """综合逻辑，先搜索知识库，再调用 AI 生成"""
     kb_response, matched_entry = search_knowledge_base(user_input)
     if kb_response:
         return kb_response
 
-    # Step 2: 动态生成，但根据已知态度补充生成条件
     predefined_attitude = None
     for topic, attitude in HUCHENFENG_ATTITUDES.items():
         if topic in user_input:
@@ -92,10 +95,12 @@ def chat_with_huchenfeng(user_input):
 
     return generate_response_with_deepseek(user_input, predefined_attitude)
 
-# 存储聊天记录到文件
-def save_chat_history(user_message, bot_response):
-    """将用户消息和 AI 回复存储到聊天记录文件"""
+
+# 存储聊天记录（按 sessionID）
+def save_chat_history(session_id, user_message, bot_response):
+    """存储用户的聊天记录到 session 专属文件"""
     try:
+        chat_file = os.path.join(CHAT_HISTORY_DIR, f"chat_history_{session_id}.json")
         chat_record = {
             "timestamp": datetime.utcnow().isoformat(),
             "user_message": user_message,
@@ -103,50 +108,62 @@ def save_chat_history(user_message, bot_response):
         }
 
         try:
-            with open(CHAT_HISTORY_FILE, "r", encoding="utf-8") as f:
+            with open(chat_file, "r", encoding="utf-8") as f:
                 history = json.load(f)
         except (FileNotFoundError, json.JSONDecodeError):
             history = []
 
         history.append(chat_record)
 
-        with open(CHAT_HISTORY_FILE, "w", encoding="utf-8") as f:
+        with open(chat_file, "w", encoding="utf-8") as f:
             json.dump(history, f, ensure_ascii=False, indent=4)
     except Exception as e:
         logging.error(f"Failed to save chat history: {e}")
 
-# 读取聊天记录的 API
+
+# 读取聊天记录 API
 @app.route("/history", methods=["GET"])
 def get_chat_history():
-    """读取聊天记录"""
+    """根据 sessionID 返回聊天记录"""
+    session_id = request.args.get("sessionID", "").strip()
+    if not session_id:
+        return jsonify({"error": "缺少 sessionID"}), 400
+
+    chat_file = os.path.join(CHAT_HISTORY_DIR, f"chat_history_{session_id}.json")
+
     try:
-        with open(CHAT_HISTORY_FILE, "r", encoding="utf-8") as f:
+        with open(chat_file, "r", encoding="utf-8") as f:
             history = json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         history = []
 
     return jsonify({"history": history})
 
-# 定义聊天 API
+
+# 处理聊天请求 API
 @app.route("/chat", methods=["POST"])
 def chat():
     try:
         data = request.json
-        logging.info(f"Received user input: {data}")
+        session_id = data.get("sessionID", "").strip()
         user_input = data.get("message", "").strip()
-        if not user_input:
+
+        if not session_id or not user_input:
             return jsonify({"response": "请输入有效的问题"}), 400
 
-        response = chat_with_huchenfeng(user_input)
-        logging.info(f"Generated response: {response}")
+        logging.info(f"Session {session_id} - 用户提问: {user_input}")
 
-        # 保存聊天记录
-        save_chat_history(user_input, response)
+        response = chat_with_huchenfeng(user_input)
+        logging.info(f"Session {session_id} - 生成回答: {response}")
+
+        save_chat_history(session_id, user_input, response)
 
         return jsonify({"response": response})
+
     except Exception as e:
         logging.error(f"Error occurred: {e}", exc_info=True)
         return jsonify({"response": "服务器出现问题，请稍后再试。"}), 500
+
 
 # 启动 Flask 应用
 if __name__ == "__main__":
