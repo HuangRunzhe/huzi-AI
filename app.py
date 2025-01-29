@@ -4,6 +4,7 @@ from openai import OpenAI
 from difflib import SequenceMatcher
 import json
 import logging
+from datetime import datetime
 
 # 配置日志
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -26,6 +27,9 @@ HUCHENFENG_ATTITUDES = {
     "中医": "反对中医",
     "大学开放": "支持大学开放"
 }
+
+# 聊天记录存储文件
+CHAT_HISTORY_FILE = "chat_history.json"
 
 # 知识库搜索函数
 def search_knowledge_base(user_input, threshold=0.7):
@@ -88,6 +92,41 @@ def chat_with_huchenfeng(user_input):
 
     return generate_response_with_deepseek(user_input, predefined_attitude)
 
+# 存储聊天记录到文件
+def save_chat_history(user_message, bot_response):
+    """将用户消息和 AI 回复存储到聊天记录文件"""
+    try:
+        chat_record = {
+            "timestamp": datetime.utcnow().isoformat(),
+            "user_message": user_message,
+            "bot_response": bot_response
+        }
+
+        try:
+            with open(CHAT_HISTORY_FILE, "r", encoding="utf-8") as f:
+                history = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            history = []
+
+        history.append(chat_record)
+
+        with open(CHAT_HISTORY_FILE, "w", encoding="utf-8") as f:
+            json.dump(history, f, ensure_ascii=False, indent=4)
+    except Exception as e:
+        logging.error(f"Failed to save chat history: {e}")
+
+# 读取聊天记录的 API
+@app.route("/history", methods=["GET"])
+def get_chat_history():
+    """读取聊天记录"""
+    try:
+        with open(CHAT_HISTORY_FILE, "r", encoding="utf-8") as f:
+            history = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        history = []
+
+    return jsonify({"history": history})
+
 # 定义聊天 API
 @app.route("/chat", methods=["POST"])
 def chat():
@@ -100,6 +139,10 @@ def chat():
 
         response = chat_with_huchenfeng(user_input)
         logging.info(f"Generated response: {response}")
+
+        # 保存聊天记录
+        save_chat_history(user_input, response)
+
         return jsonify({"response": response})
     except Exception as e:
         logging.error(f"Error occurred: {e}", exc_info=True)
