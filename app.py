@@ -33,6 +33,31 @@ HUCHENFENG_ATTITUDES = {
 CHAT_HISTORY_DIR = "chat_history"
 os.makedirs(CHAT_HISTORY_DIR, exist_ok=True)  # 创建目录（如果不存在）
 
+# 敏感词文件路径
+SENSITIVE_WORDS_FILE = "sensitive_words_lines.txt"
+
+# 读取敏感词列表
+def load_sensitive_words():
+    """加载敏感词列表"""
+    try:
+        with open(SENSITIVE_WORDS_FILE, "r", encoding="utf-8") as f:
+            words = [line.strip() for line in f if line.strip()]
+        return set(words)
+    except FileNotFoundError:
+        logging.warning("敏感词文件不存在，将使用空列表。")
+        return set()
+
+SENSITIVE_WORDS = load_sensitive_words()
+
+
+# 检测用户输入是否包含敏感词
+def contains_sensitive_words(text):
+    """检查输入是否包含敏感词"""
+    for word in SENSITIVE_WORDS:
+        if word in text:
+            return True
+    return False
+
 
 # 知识库搜索函数
 def search_knowledge_base(user_input, threshold=0.7):
@@ -150,6 +175,12 @@ def chat():
 
         if not session_id or not user_input:
             return jsonify({"response": "请输入有效的问题"}), 400
+        
+                # 敏感词检测
+        if contains_sensitive_words(user_input):
+            logging.warning(f"Session {session_id} - 触发敏感词: {user_input}")
+            save_chat_history(session_id, user_input, "抱歉，该内容无法回答。")
+            return jsonify({"response": "抱歉，该内容无法回答。"}), 403  # HTTP 403 Forbidden
 
         logging.info(f"Session {session_id} - 用户提问: {user_input}")
 
