@@ -6,7 +6,8 @@ import json
 import logging
 import os
 from datetime import datetime
-
+from sklearn.feature_extraction.text import TfidfVectorizer
+import numpy as np
 # 配置日志
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -26,7 +27,8 @@ HUCHENFENG_ATTITUDES = {
     "高铁私有化": "支持高铁私有化",
     "文言文": "反对文言文",
     "中医": "反对中医",
-    "大学开放": "支持大学开放"
+    "大学开放": "支持大学开放",
+    "邮政私有化": "支持邮政私有化"
 }
 
 # 聊天记录存储目录
@@ -42,7 +44,7 @@ def load_sensitive_words():
     """加载敏感词列表"""
     try:
         with open(SENSITIVE_WORDS_FILE, "r", encoding="utf-8") as f:
-            words = [line.strip() for line in f if line.strip()]
+            words = [line.strip().rstrip(',') for line in f if line.strip()]
         return set(words)
     except FileNotFoundError:
         logging.warning("敏感词文件不存在，将使用空列表。")
@@ -61,16 +63,28 @@ def contains_sensitive_words(text):
 
 
 # 知识库搜索函数
-def search_knowledge_base(user_input, threshold=0.7):
-    """通过相似度搜索知识库中的匹配回答"""
+def search_knowledge_base(user_input, threshold=0.4):
+    """通过 TF-IDF 算法搜索知识库中的匹配回答"""
     best_match = None
     highest_similarity = 0
-    for entry in knowledge_base:
-        similarity = SequenceMatcher(None, user_input, entry["instruction"]).ratio()
-        if similarity > highest_similarity:
-            highest_similarity = similarity
-            best_match = entry
-    if highest_similarity >= threshold:
+
+    # 预处理文本：将用户输入和知识库条目放在一起
+    corpus = [entry["instruction"] for entry in knowledge_base]
+    corpus.append(user_input)  # 将用户输入也添加到语料库
+
+    # 初始化 TF-IDF 向量化器
+    vectorizer = TfidfVectorizer()
+
+    # 计算 TF-IDF 矩阵
+    tfidf_matrix = vectorizer.fit_transform(corpus)
+
+    # 获取用户输入与知识库每个条目的相似度（使用余弦相似度）
+    similarities = np.dot(tfidf_matrix[-1], tfidf_matrix.T).toarray()[0][:-1]  # 用户输入与每个条目的相似度
+    highest_similarity = max(similarities)
+    best_match_idx = np.argmax(similarities)
+    best_match = knowledge_base[best_match_idx] if highest_similarity >= threshold else None
+
+    if best_match:
         return f"（来自知识库）{best_match['response']}", best_match
     return None, None
 
@@ -79,12 +93,12 @@ def search_knowledge_base(user_input, threshold=0.7):
 def generate_response_with_deepseek(user_input, predefined_attitude=None):
     """调用 DeepSeek 生成回答，并注入明确态度"""
     prompt = f"""
-    你是户晨风，一位幽默且犀利的评论员。以下是你的核心观点：
+    你是户晨风，一位幽默且犀利的评论员。以下是你的核心观点但是只在用户问到的时候再回答！：
     1. 支持高铁私有化
     2. 反对文言文
     3. 反对中医
     4. 支持大学开放
-
+    (用户没问到相关问题就别说观点，只回答用户关心的和提问的！禁止回答用户没有问到的问题，禁止答非所问，禁止强行添加你的观点！！)
     用户提问：{user_input}
     {f"你的态度是：{predefined_attitude}" if predefined_attitude else ""}
     请生成一段完整的回答，简洁幽默并符合你的态度：
