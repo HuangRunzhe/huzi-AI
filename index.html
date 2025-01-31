@@ -9,94 +9,137 @@
 <body class="bg-gray-900 text-gray-100 font-sans">
 
     <!-- Header -->
-    <header class="bg-gradient-to-r from-blue-500 to-indigo-600 py-6">
+    <header class="bg-gradient-to-r from-blue-500 to-indigo-600 py-6 shadow-lg">
         <div class="container mx-auto text-center">
-            <h1 class="text-4xl font-extrabold tracking-tight">AI 户晨风(Huzi-V1)</h1>
-            <p class="mt-2 text-lg">一个模仿户晨风风格的AI对话大语言模型</p>
+            <h1 class="text-4xl font-extrabold tracking-tight">AI 户晨风 (Huzi-V1)</h1>
+            <p class="mt-2 text-lg text-gray-200">模仿户晨风风格的 AI 对话模型</p>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-12">
+    <main class="container mx-auto px-4 py-12 space-y-12">
+
         <!-- 关于模型 -->
-        <section class="text-center">
-            <h2 class="text-3xl font-bold mb-6">关于对话模型</h2>
+        <section class="bg-gray-800 rounded-xl p-8 shadow-lg text-center mx-auto max-w-4xl">
+            <h2 class="text-4xl font-extrabold text-indigo-400 mb-6">关于 AI 户晨风</h2>
             <div class="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-6">
                 <!-- 图片部分 -->
-                <img src="/static/img/hcf_portrait.jpg" alt="户晨风" class="w-64 h-64 object-cover rounded-full shadow-lg">
+                <div class="flex-shrink-0">
+                    <img src="/static/img/hcf_portrait.jpg" alt="户晨风" class="w-48 h-48 object-cover rounded-full border-4 border-indigo-500 shadow-lg">
+                </div>
                 <!-- 文本部分 -->
-                <p class="text-gray-300 leading-relaxed text-lg max-w-lg">
-                    AI 户晨风是一款基于最新大语言模型技术开发的对话助手，能够模仿户晨风先生的风格，
-                    以幽默风趣且犀利的方式回答您的问题。
-                    <br/>
-                    <br/>
-                    所有 材料来源于 户晨风先生微博内容(之后会采取录播转文字,注入更多观点！)
-                    <br/>
-                    <br/>
-                    重新进行预训练成本过于高，所以目前只采取DeepSeekAPI+户晨风语料库的形式。
-                </p>
-
+                <div class="text-left">
+                    <p class="text-gray-300 leading-relaxed text-lg mb-4">
+                        AI 户晨风是一款基于 <span class="text-indigo-300 font-semibold">最新大语言模型技术</span> 开发的对话助手，
+                        以 <span class="text-yellow-300 font-semibold">幽默风趣</span> 且 <span class="text-red-300 font-semibold">犀利独特</span> 的方式回答您的问题。
+                    </p>
+                    <ul class="list-disc list-inside text-gray-400 space-y-2">
+                        <li>📌 语料来源于户晨风先生的微博内容</li>
+                        <li>🎙️ 未来将加入录播转文字，提升观点注入</li>
+                        <li>💡 采用 <span class="text-indigo-400">DeepSeek API + 户晨风语料库</span> 进行对话</li>
+                    </ul>
+                </div>
             </div>
         </section>
-        
-                <!-- 赞助支持 -->
-        <section class="mt-12 text-center">
-            <h2 class="text-3xl font-bold mb-6">支持 AI 户晨风</h2>
+
+        <!-- 赞助支持 -->
+        <section class="bg-gray-800 rounded-lg p-8 shadow-lg text-center mx-auto max-w-3xl">
+            <h2 class="text-3xl font-bold text-green-400 mb-4">支持 AI 户晨风</h2>
             <p class="text-gray-300 mb-6">
-              这个项目需要您的支持！如果您喜欢 AI 户晨风，可以通过以下方式帮助我们维持运营。
+                这个项目需要您的支持！如果您喜欢 AI 户晨风，可以通过以下方式帮助我们维持运营：
             </p>
-            <a href="donate.html" class="bg-green-500 hover:bg-green-600 text-white py-4 px-6 rounded-lg text-lg shadow-lg">
-                立即支持
+            <a href="donate.html" class="bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg text-lg shadow-lg transition">
+                立即支持 🚀
+            </a>
+        </section>
+
+        <!-- 对话功能 -->
+        <section class="text-center">
+            <h2 class="text-3xl font-bold mb-4 text-blue-400">与 AI 户晨风对话</h2>
+            <p class="text-gray-300 mb-6">
+                立即与 AI 户晨风互动，体验幽默风趣的对话功能！
+            </p>
+            <a href="chat.html" class="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg text-lg shadow-lg transition">
+                开始对话 💬
             </a>
         </section>
         
-
-        
-        <!-- 导航到对话功能 -->
-        <section class="mt-12 text-center">
-            <h2 class="text-3xl font-bold mb-6">与 AI 户晨风对话</h2>
-            
-            <p>(当前DeepSeekAPI失效，暂时无法对话01-29-21:00)</p>
-            <p>(对话正常恢复01-30-00:00)</p>
-            <p class="text-gray-300 mb-6">
-                点击下方按钮开始与 AI 户晨风互动，体验幽默风趣的对话功能！
-            </p>
-            <a href="chat.html" class="bg-blue-500 hover:bg-blue-600 text-white py-4 px-6 rounded-lg text-lg shadow-lg">
-                开始对话
+        <section class="text-center mt-12">
+            <h2 class="text-3xl font-bold mb-4 text-yellow-400">帮助我们改进！</h2>
+            <p class="text-gray-300 mb-6">有任何问题或建议？请告诉我们！</p>
+            <a href="feedback.html" class="bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-6 rounded-lg text-lg shadow-lg transition">
+                提交反馈 📝
             </a>
-
         </section>
 
+        
+        <!-- 项目状态 -->
+        <section class="text-center">
+            <h2 class="text-2xl font-bold text-yellow-400 mb-4">项目状态</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full max-w-lg mx-auto border border-gray-700 shadow-md rounded-lg">
+                    <thead class="bg-gray-800 text-gray-200">
+                        <tr>
+                            <th class="p-2 border border-gray-700">报告时间</th>
+                            <th class="p-2 border border-gray-700">状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-gray-700">
+                            <td class="p-2 border border-gray-700">01-31 00:00</td>
+                            <td class="p-2 border border-gray-700 text-green-400 font-bold">修复服务器错误 Bug</td>
+                        </tr>
+                        
+                        <tr class="bg-gray-800">
+                            <td class="p-2 border border-gray-700">01-30 00:00</td>
+                            <td class="p-2 border border-gray-700 text-green-400 font-bold">对话已恢复正常</td>
+                        </tr>
+                        
+                        <tr class="bg-gray-800">
+                            <td class="p-2 border border-gray-700">01-29 21:00</td>
+                            <td class="p-2 border border-gray-700 text-red-400 font-bold">DeepSeekAPI 失效，暂时无法对话</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
         <!-- 模型特点 -->
-        <section class="mt-12">
-            <h2 class="text-3xl font-bold text-center mb-6">模型特点</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <section class="text-center">
+            <h2 class="text-3xl font-bold text-indigo-400 mb-6">模型特点</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-gray-800 rounded-lg shadow-lg p-6">
-                    <h3 class="text-xl font-semibold mb-4">幽默风趣</h3>
+                    <h3 class="text-xl font-semibold text-yellow-300 mb-2">🤹 幽默风趣</h3>
                     <p class="text-gray-400">AI 户晨风总是用幽默的语言化解问题，让对话变得轻松愉快。</p>
                 </div>
                 <div class="bg-gray-800 rounded-lg shadow-lg p-6">
-                    <h3 class="text-xl font-semibold mb-4">犀利见解</h3>
+                    <h3 class="text-xl font-semibold text-red-300 mb-2">🧠 犀利见解</h3>
                     <p class="text-gray-400">模型能够从不同角度看问题，给出深刻的见解。</p>
                 </div>
                 <div class="bg-gray-800 rounded-lg shadow-lg p-6">
-                    <h3 class="text-xl font-semibold mb-4">个性化回答</h3>
+                    <h3 class="text-xl font-semibold text-green-300 mb-2">🎯 个性化回答</h3>
                     <p class="text-gray-400">模型根据提问内容生成专属的回答，模拟户晨风的语气和风格。</p>
                 </div>
             </div>
         </section>
 
-
-
     </main>
+    
+<section class="text-center mt-12">
+    <h2 class="text-3xl font-bold mb-4 text-yellow-400">管理用户反馈</h2>
+    <p class="text-gray-300 mb-6">查看用户提交的问题和建议</p>
+    <a href="view_feedback.html" class="bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-6 rounded-lg text-lg shadow-lg transition">
+        查看反馈 📋
+    </a>
+</section>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 py-4">
+    <footer class="bg-gray-800 py-4 mt-8">
         <div class="container mx-auto text-center">
-            <p class="text-gray-500">&copy; 2025 AI 户晨风 | <a href="https://github.com/HuangRunzhe/huzi-AI" class="text-indigo-400 hover:underline">Github源代码</a></p>
-            
+            <p class="text-gray-500">&copy; 2025 AI 户晨风 | <a href="https://github.com/HuangRunzhe/huzi-AI" class="text-indigo-400 hover:underline">GitHub 源代码</a></p>
         </div>
     </footer>
+
 </body>
 </html>

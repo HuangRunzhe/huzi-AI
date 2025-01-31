@@ -32,7 +32,8 @@ HUCHENFENG_ATTITUDES = {
 # 聊天记录存储目录
 CHAT_HISTORY_DIR = "chat_history"
 os.makedirs(CHAT_HISTORY_DIR, exist_ok=True)  # 创建目录（如果不存在）
-
+# 反馈存储文件
+FEEDBACK_FILE = "feedback.json"
 # 敏感词文件路径
 SENSITIVE_WORDS_FILE = "/www/wwwroot/secret_file/sensitive_words_lines.txt"
 
@@ -196,6 +197,67 @@ def chat():
         logging.error(f"Error occurred: {e}", exc_info=True)
         return jsonify({"response": "服务器出现问题，请稍后再试。"}), 500
 
+# 存储反馈
+def save_feedback(feedback_text, contact_info):
+    """保存用户反馈"""
+    try:
+        feedback_data = {
+            "timestamp": datetime.utcnow().isoformat(),
+            "feedback_text": feedback_text,
+            "contact_info": contact_info
+        }
+
+        try:
+            with open(FEEDBACK_FILE, "r", encoding="utf-8") as f:
+                feedback_list = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            feedback_list = []
+
+        feedback_list.append(feedback_data)
+
+        with open(FEEDBACK_FILE, "w", encoding="utf-8") as f:
+            json.dump(feedback_list, f, ensure_ascii=False, indent=4)
+
+    except Exception as e:
+        logging.error(f"Failed to save feedback: {e}")
+
+# 提交反馈 API
+@app.route("/feedback", methods=["POST"])
+def feedback():
+    try:
+        data = request.json
+        feedback_text = data.get("feedbackText", "").strip()
+        contact_info = data.get("contactInfo", "").strip()
+
+        if not feedback_text:
+            return jsonify({"message": "反馈内容不能为空"}), 400
+
+        save_feedback(feedback_text, contact_info)
+        return jsonify({"message": "反馈提交成功"}), 200
+
+    except Exception as e:
+        logging.error(f"Error saving feedback: {e}")
+        return jsonify({"message": "服务器错误，请稍后再试"}), 500
+
+
+ADMIN_PASSWORD = "265536"
+
+@app.route("/get_feedback", methods=["POST"])
+def get_feedback():
+    """返回所有用户反馈（需要身份验证）"""
+    try:
+        data = request.json
+        input_password = data.get("password", "")
+
+        if input_password != ADMIN_PASSWORD:
+            return jsonify({"error": "密码错误，禁止访问"}), 403
+
+        with open(FEEDBACK_FILE, "r", encoding="utf-8") as f:
+            feedback_list = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        feedback_list = []
+
+    return jsonify({"feedback": feedback_list})
 
 # 启动 Flask 应用
 if __name__ == "__main__":
