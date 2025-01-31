@@ -34,7 +34,7 @@ CHAT_HISTORY_DIR = "chat_history"
 os.makedirs(CHAT_HISTORY_DIR, exist_ok=True)  # 创建目录（如果不存在）
 
 # 敏感词文件路径
-SENSITIVE_WORDS_FILE = "sensitive_words_lines.txt"
+SENSITIVE_WORDS_FILE = "/www/wwwroot/secret_file/sensitive_words_lines.txt"
 
 # 读取敏感词列表
 def load_sensitive_words():
@@ -179,7 +179,8 @@ def chat():
                 # 敏感词检测
         if contains_sensitive_words(user_input):
             logging.warning(f"Session {session_id} - 触发敏感词: {user_input}")
-            save_chat_history(session_id, user_input, "抱歉，该内容无法回答。")
+            
+            save_chat_history(session_id, user_input, "无法回答")
             return jsonify({"response": "抱歉，该内容无法回答。"}), 403  # HTTP 403 Forbidden
 
         logging.info(f"Session {session_id} - 用户提问: {user_input}")
