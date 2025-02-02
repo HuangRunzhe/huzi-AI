@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>问题反馈 & 建议</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-500 to-indigo-600 py-6 shadow-lg">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-extrabold tracking-tight">问题反馈 & 建议</h1>
+            <p class="mt-2 text-lg text-gray-200">欢迎提出您的宝贵意见，让 AI 户晨风变得更好！</p>
+        </div>
+    </header>
+
+    <!-- Feedback Form -->
+    <main class="container mx-auto px-4 py-12">
+        <section class="bg-gray-800 rounded-xl p-8 shadow-lg max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-indigo-400 mb-4 text-center">提交您的反馈</h2>
+
+            <form id="feedback-form" class="space-y-4">
+                <label class="block">
+                    <span class="text-gray-200">您的建议或问题：</span>
+                    <textarea id="feedback-text" class="w-full mt-2 p-3 bg-gray-700 rounded-lg text-white resize-none" rows="5" placeholder="请详细描述您的问题或建议..."></textarea>
+                </label>
+
+                <label class="block">
+                    <span class="text-gray-200">您的联系方式（可选）：</span>
+                    <input id="contact-info" type="text" class="w-full mt-2 p-3 bg-gray-700 rounded-lg text-white" placeholder="您的邮箱或社交账号">
+                </label>
+
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg text-lg shadow-lg w-full transition">
+                    提交反馈
+                </button>
+            </form>
+
+            <p id="success-message" class="hidden text-green-400 mt-4 text-center">反馈提交成功！感谢您的支持！</p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p class="text-gray-500">&copy; 2025 AI 户晨风 | <a href="index.html" class="text-indigo-400 hover:underline">返回首页</a></p>
+        </div>
+    </footer>
+
+    <!-- JavaScript 处理提交 -->
+    <script>
+        document.getElementById("feedback-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const feedbackText = document.getElementById("feedback-text").value.trim();
+            const contactInfo = document.getElementById("contact-info").value.trim();
+            const successMessage = document.getElementById("success-message");
+
+            if (!feedbackText) {
+                alert("请填写您的反馈内容！");
+                return;
+            }
+
+            try {
+                const response = await fetch("https://ai.huchenfeng.cfd/feedback", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ feedbackText, contactInfo })
+                });
+
+                if (response.ok) {
+                    successMessage.classList.remove("hidden");
+                    document.getElementById("feedback-form").reset();
+                } else {
+                    alert("提交失败，请稍后再试！");
+                }
+            } catch (error) {
+                alert("服务器错误，请稍后再试！");
+            }
+        });
+    </script>
+
+</body>
+</html>

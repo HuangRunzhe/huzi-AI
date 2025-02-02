@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI 户晨风 - 对话功能</title>
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* 让 html, body 占满屏幕，并禁止外层滚动 */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;  /* 避免跟中间滚动冲突 */
+      background-color: #1f2937;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+    }
+
+    /* 顶部 Header：固定定位，使其一直可见 */
+    .header-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50; /* 保证覆盖聊天区 */
+      background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+      padding: 1.5rem 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 返回首页按钮固定在 Header 内部右侧 */
+    .home-button {
+      position: absolute;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(4px);
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      color: white;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    .home-button:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-50%) scale(1.05);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* 
+      中间聊天区：居中 + 限制最大宽度
+      通过 absolute + top/bottom 来占据除去 Header 和 输入框外的垂直空间 
+    */
+    .chat-container {
+      position: absolute;
+      top: 5rem;      /* 留给 Header 的高度，可视情况调整 */
+      bottom: 5rem;   /* 留给输入框的高度，可视情况调整 */
+      left: 50%;
+      transform: translateX(-50%);
+
+      width: 95%;            /* 在小屏下占比宽一些 */
+      max-width: 800px;      /* 你可改为 700 / 900px 等 */
+      overflow-y: auto;
+      padding: 1rem;
+    }
+
+    /* 聊天消息容器 */
+    #chat-box {
+      display: flex;
+      flex-direction: column;
+      /* 留点下方空间，避免最后一条贴着输入框 */
+      padding-bottom: 1rem;
+    }
+
+    /* 消息行 */
+    .message-row {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .message-row.user {
+      flex-direction: row-reverse;
+    }
+
+    /* 头像样式 */
+    .avatar {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* 消息气泡 */
+    .message {
+      max-width: min(75%, 600px);
+      padding: 0.75rem 1.25rem;
+      border-radius: 1.25rem;
+      line-height: 1.5;
+      animation: messageAppear 0.3s ease-out;
+    }
+    @keyframes messageAppear {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .message.user {
+      background: #3b82f6;
+      border-bottom-right-radius: 0.5rem;
+    }
+    .message.bot {
+      background: #374151;
+      border-bottom-left-radius: 0.5rem;
+    }
+
+    /* 底部输入框：固定在底部 + 同样居中限制宽度 + 圆角 */
+    .input-container {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95%;
+      max-width: 800px;
+      padding: 1rem;
+      background: rgba(39, 51, 73, 0.95);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);
+      z-index: 50; 
+      
+      /* 加上上边的圆角 */
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+    }
+    .input-wrapper {
+      display: flex;
+      gap: 0.75rem;
+    }
+    .input-field {
+      flex: 1;
+      padding: 0.875rem 1.25rem;
+      border-radius: 0.75rem;
+      background: #475569;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    }
+    .send-button {
+      padding: 0.875rem 1.5rem;
+      border-radius: 0.75rem;
+      background: #3b82f6;
+      color: white;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    .send-button:hover {
+      background: #2563eb;
+    }
+    .send-button:disabled {
+      background: #64748b;
+      cursor: not-allowed;
+    }
+
+    /* 
+      三点闪烁: "AI 正在思考"动画
+      下面定义三段圆点的动画: typingDots 
+    */
+    .typing-indicator {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #ffffff;
+      display: inline-block;
+      margin: 0 2px;
+      opacity: 0.3;
+      animation: typingDots 1.2s infinite ease-in-out;
+    }
+    .typing-indicator:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    .typing-indicator:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typingDots {
+      0% {
+        opacity: 0.3;
+        transform: translateY(0);
+      }
+      20% {
+        opacity: 1;
+        transform: translateY(-2px);
+      }
+      100% {
+        opacity: 0.3;
+        transform: translateY(0);
+      }
+    }
+
+    /* 小屏幕适配 */
+    @media (max-width: 640px) {
+      .home-button {
+        right: 1rem;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+      }
+      .message {
+        max-width: 85%;
+      }
+      .input-field {
+        padding: 0.75rem 1rem;
+      }
+      .send-button {
+        padding: 0.75rem 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 顶部固定 Header -->
+  <header class="header-container">
+    <a href="https://www.huchenfeng.cfd/" class="home-button">
+      返回首页
+    </a>
+    <div class="text-center">
+      <h1 class="text-3xl font-bold">AI 户晨风 - 对话功能</h1>
+      <p class="mt-1 text-gray-200">实时与 AI 户晨风互动，获取犀利幽默的回答</p>
+    </div>
+  </header>
+
+  <!-- 中间可滚动的聊天区 -->
+  <main class="chat-container" id="chat-container">
+    <div id="chat-box"></div>
+  </main>
+
+  <!-- 底部固定的输入栏 -->
+  <div class="input-container">
+    <div class="input-wrapper">
+      <input
+        id="user-input"
+        type="text"
+        placeholder="请输入您的问题或观点..."
+        class="input-field"
+      />
+      <button id="send-button" class="send-button">
+        发送
+      </button>
+    </div>
+  </div>
+
+  <!-- 脚本逻辑 -->
+  <script>
+    // DOM 选择器
+    const chatContainer = document.getElementById('chat-container');
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendButton = document.getElementById('send-button');
+
+    // 配置项
+    const config = {
+      avatars: {
+        user: '/static/img/bu_photo.jpg',
+        bot: '/static/img/hcf_portrait.jpg'
+      },
+      api: {
+        chat: 'https://ai.huchenfeng.cfd/chat',
+        history: 'https://ai.huchenfeng.cfd/history'
+      }
+    };
+
+    // 用于给"正在思考"的消息分配 ID，以便后续移除
+    const TYPING_INDICATOR_ID = 'typing-indicator-row';
+
+    // 消息处理器
+    const messageHandler = {
+      createMessageElement(content, isUser) {
+        const element = document.createElement('div');
+        element.className = `message ${isUser ? 'user' : 'bot'}`;
+        element.textContent = content;
+        return element;
+      },
+
+      appendMessage(content, isUser) {
+        const row = document.createElement('div');
+        row.className = `message-row ${isUser ? 'user' : 'bot'}`;
+
+        const avatar = document.createElement('img');
+        avatar.className = 'avatar';
+        avatar.src = isUser ? config.avatars.user : config.avatars.bot;
+
+        row.appendChild(avatar);
+        row.appendChild(this.createMessageElement(content, isUser));
+        chatBox.appendChild(row);
+      },
+
+      // 强制滚动至底部
+      scrollToBottom(isSmooth = true) {
+        const offset = chatBox.scrollHeight;
+        chatContainer.scrollTo({
+          top: offset,
+          behavior: isSmooth ? 'smooth' : 'auto'
+        });
+      },
+
+      // 显示 "AI 正在输入" 三点动画
+      showTypingIndicator() {
+        // 先检查是否已存在
+        if (document.getElementById(TYPING_INDICATOR_ID)) return;
+
+        const row = document.createElement('div');
+        row.id = TYPING_INDICATOR_ID;
+        row.className = 'message-row bot'; // 让它看起来是AI的气泡
+
+        const avatar = document.createElement('img');
+        avatar.className = 'avatar';
+        avatar.src = config.avatars.bot;
+
+        // 构造一个 message 容器
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message bot';
+
+        // 放入三段圆点
+        for (let i = 0; i < 3; i++) {
+          const dot = document.createElement('span');
+          dot.className = 'typing-indicator';
+          messageDiv.appendChild(dot);
+        }
+
+        // 拼装到页面
+        row.appendChild(avatar);
+        row.appendChild(messageDiv);
+        chatBox.appendChild(row);
+
+        this.scrollToBottom();
+      },
+
+      // 移除 "AI 正在输入" 提示
+      removeTypingIndicator() {
+        const indicatorRow = document.getElementById(TYPING_INDICATOR_ID);
+        if (indicatorRow) {
+          chatBox.removeChild(indicatorRow);
+        }
+      }
+    };
+
+    // 会话管理
+    const session = {
+      id: localStorage.getItem('sessionID') || crypto.randomUUID(),
+      init() {
+        if (!localStorage.getItem('sessionID')) {
+          localStorage.setItem('sessionID', this.id);
+        }
+        this.loadHistory();
+      },
+      async loadHistory() {
+        try {
+          const response = await fetch(`${config.api.history}?sessionID=${this.id}`);
+          const data = await response.json();
+
+          // 先追加所有历史记录（不滚动）
+          data.history?.forEach(entry => {
+            messageHandler.appendMessage(entry.user_message, true);
+            messageHandler.appendMessage(entry.bot_response, false);
+          });
+
+          // 稍作延迟再滚动到底，确保 DOM 渲染完成
+          setTimeout(() => {
+            messageHandler.scrollToBottom(false);
+          }, 50);
+        } catch (error) {
+          console.error('加载历史记录失败:', error);
+        }
+      }
+    };
+
+    // 聊天服务
+    const chatService = {
+      isProcessing: false,
+
+      async sendMessage() {
+        if (this.isProcessing) return;
+
+        const message = userInput.value.trim();
+        if (!message) return;
+
+        this.isProcessing = true;
+        sendButton.disabled = true;
+
+        try {
+          // 用户消息
+          messageHandler.appendMessage(message, true);
+          messageHandler.scrollToBottom();
+          userInput.value = '';
+
+          // 显示 "AI 正在思考" 提示
+          messageHandler.showTypingIndicator();
+
+          // 请求 AI 回复
+          const response = await fetch(config.api.chat, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              sessionID: session.id,
+              message
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP错误: ${response.status}`);
+          }
+
+          // 移除思考提示
+          messageHandler.removeTypingIndicator();
+
+          const data = await response.json();
+          // 显示 AI 回复
+          messageHandler.appendMessage(data.response || '无法生成回复', false);
+          messageHandler.scrollToBottom();
+        } catch (error) {
+          console.error('消息发送失败:', error);
+          // 若失败也移除思考提示
+          messageHandler.removeTypingIndicator();
+          // 给出提示
+          messageHandler.appendMessage('服务暂时不可用，请稍后重试', false);
+          messageHandler.scrollToBottom();
+        } finally {
+          this.isProcessing = false;
+          sendButton.disabled = false;
+        }
+      }
+    };
+
+    // 事件绑定
+    sendButton.addEventListener('click', () => chatService.sendMessage());
+    userInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        chatService.sendMessage();
+      }
+    });
+
+    // 初始化
+    session.init();
+  </script>
+</body>
+</html>
