@@ -8,13 +8,13 @@ workers = 4
 threads = 2
 
 #启动用户
-user = 'www'
+user = 'root'
 
 # 启动模式
 worker_class = 'sync'
 
 # 绑定的ip与端口
-bind = '0.0.0.0:8008' 
+bind = '0.0.0.0:7858' 
 
 # 设置进程文件目录（用于停止服务和重启服务，请勿删除）
 pidfile = '/www/wwwroot/huzi-AI/gunicorn.pid'

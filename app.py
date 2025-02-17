@@ -16,7 +16,7 @@ app = Flask(__name__)
 CORS(app)  # 启用 CORS
 
 # 初始化 DeepSeek 客户端
-client = OpenAI(api_key="sk-c03lFJ6UIxR8uVj9BmUkuVvTMgKbaPObaa2VgSqizcIbKwYU", base_url="https://tbnx.plus7.plus/v1")
+client = OpenAI(api_key="sk-c03lFJ6UIxR8uVhcfnb666mUkuVvTMaPObaa2VgSqizcIbKwYU", base_url="https://tbnx.plus7.plus/v1")
 
 # 加载知识库数据
 with open("huchenfeng_dialog_deepseek.json", "r", encoding="utf-8") as f:
@@ -273,7 +273,6 @@ def get_feedback():
         feedback_list = []
 
     return jsonify({"feedback": feedback_list})
-
 
 
 # 启动 Flask 应用
