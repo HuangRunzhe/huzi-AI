@@ -16,7 +16,7 @@ app = Flask(__name__)
 CORS(app)  # 启用 CORS
 
 # 初始化 DeepSeek 客户端
-client = OpenAI(api_key="sk-874783538ff04df5bcf67aa3fec598a7", base_url="https://api.deepseek.com")
+client = OpenAI(api_key="sk-c03lFJ6UIxR8uVj9BmUkuVvTMgKbaPObaa2VgSqizcIbKwYU", base_url="https://tbnx.plus7.plus/v1")
 
 # 加载知识库数据
 with open("huchenfeng_dialog_deepseek.json", "r", encoding="utf-8") as f:
@@ -34,6 +34,7 @@ HUCHENFENG_ATTITUDES = {
 # 聊天记录存储目录
 CHAT_HISTORY_DIR = "chat_history"
 os.makedirs(CHAT_HISTORY_DIR, exist_ok=True)  # 创建目录（如果不存在）
+
 # 反馈存储文件
 FEEDBACK_FILE = "feedback.json"
 # 敏感词文件路径
@@ -272,6 +273,8 @@ def get_feedback():
         feedback_list = []
 
     return jsonify({"feedback": feedback_list})
+
+
 
 # 启动 Flask 应用
 if __name__ == "__main__":

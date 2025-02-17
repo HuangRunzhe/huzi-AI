@@ -1,0 +1,12 @@
+[
+    {
+        "timestamp": "2025-02-14T06:52:47.442955",
+        "user_message": "你怎么看待华为",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    },
+    {
+        "timestamp": "2025-02-14T06:52:57.361287",
+        "user_message": "牛黄",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "timestamp": "2025-02-14T11:06:56.504715",
+        "user_message": "你觉得陈向龙是什么样的人",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    },
+    {
+        "timestamp": "2025-02-14T11:07:17.709320",
+        "user_message": "评价陈向龙",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "timestamp": "2025-02-15T14:51:41.111546",
+        "user_message": "菊花手机怎么样",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    },
+    {
+        "timestamp": "2025-02-15T14:51:51.935205",
+        "user_message": "华为手机怎么样",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    }
+]

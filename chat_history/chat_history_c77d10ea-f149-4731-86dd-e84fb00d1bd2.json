@@ -1,0 +1,7 @@
+[
+    {
+        "timestamp": "2025-02-14T14:03:01.550194",
+        "user_message": "你是谁？",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    }
+]

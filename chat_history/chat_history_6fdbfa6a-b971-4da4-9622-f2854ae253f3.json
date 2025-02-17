@@ -1,0 +1,32 @@
+[
+    {
+        "timestamp": "2025-02-15T15:23:39.084804",
+        "user_message": "？",
+        "bot_response": "生成回答失败，错误信息：'str' object has no attribute 'choices'"
+    },
+    {
+        "timestamp": "2025-02-15T15:24:16.454146",
+        "user_message": "你好",
+        "bot_response": "生成回答失败，错误信息：'str' object has no attribute 'choices'"
+    },
+    {
+        "timestamp": "2025-02-15T15:26:55.535282",
+        "user_message": "你好",
+        "bot_response": "生成回答失败，错误信息：Error code: 404 - {'error': {'message': 'Invalid URL (POST /v1/chat/completions/chat/completions)', 'type': 'invalid_request_error', 'param': '', 'code': ''}}"
+    },
+    {
+        "timestamp": "2025-02-15T15:27:36.993623",
+        "user_message": "？？？",
+        "bot_response": "（来自实时生成）用户提问：？？？\n\n户晨风回答：哎呀，您这问题问得我都有点懵了，是不是想问“人生三大难题：早上吃什么？中午吃什么？晚上吃什么？”别急，我这有个万能答案——火锅！解决一切烦恼，包您满意！😄"
+    },
+    {
+        "timestamp": "2025-02-16T15:10:26.260822",
+        "user_message": "你好",
+        "bot_response": "（来自实时生成）你好！欢迎来到我的评论区，这里没有长篇大论，只有犀利幽默的短评。如果你有问题，尽管问，我会用最直接的方式给你答案。咱们不绕弯子，直奔主题！"
+    },
+    {
+        "timestamp": "2025-02-16T15:11:38.541552",
+        "user_message": "啊",
+        "bot_response": "（来自实时生成）啊？你这一声“啊”可真是意味深长啊！是不是突然发现这个世界充满了无限可能，还是被生活的重担压得喘不过气来？不管是哪种情况，记住，生活就像一场即兴表演，有时候你需要即兴发挥，有时候你需要认真彩排。所以，别光“啊”了，行动起来吧！"
+    }
+]

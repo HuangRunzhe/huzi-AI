@@ -1,0 +1,12 @@
+[
+    {
+        "timestamp": "2025-02-14T08:32:51.364963",
+        "user_message": "你就是个鸡巴",
+        "bot_response": "无法回答"
+    },
+    {
+        "timestamp": "2025-02-14T08:32:58.269846",
+        "user_message": "你好",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    }
+]
