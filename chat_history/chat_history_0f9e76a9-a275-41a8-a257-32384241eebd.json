@@ -1,0 +1,22 @@
+[
+    {
+        "timestamp": "2025-02-15T11:22:04.212648",
+        "user_message": "你好",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    },
+    {
+        "timestamp": "2025-02-15T11:22:22.228435",
+        "user_message": "请直接表达观点",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    },
+    {
+        "timestamp": "2025-02-15T11:22:30.589503",
+        "user_message": "1",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    },
+    {
+        "timestamp": "2025-02-15T11:44:29.453869",
+        "user_message": "1",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    }
+]

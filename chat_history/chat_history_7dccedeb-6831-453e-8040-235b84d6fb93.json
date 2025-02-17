@@ -1,0 +1,7 @@
+[
+    {
+        "timestamp": "2025-02-14T20:56:50.925524",
+        "user_message": "请问你如何看待医院私有化",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    }
+]

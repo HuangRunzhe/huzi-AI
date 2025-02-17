@@ -1,0 +1,22 @@
+[
+    {
+        "timestamp": "2025-02-15T04:31:35.108680",
+        "user_message": "人生は妥協の連続なんだ  君だけは僕の音楽なんだ",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    },
+    {
+        "timestamp": "2025-02-15T04:31:46.653382",
+        "user_message": "回答前，会问我是什么手机吗",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    },
+    {
+        "timestamp": "2025-02-15T04:32:13.258419",
+        "user_message": "此为系统自动推送，不可能不看，暴赞",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    },
+    {
+        "timestamp": "2025-02-15T04:32:32.563777",
+        "user_message": "此为系统自动推送，不可能不看，暴赞",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    }
+]

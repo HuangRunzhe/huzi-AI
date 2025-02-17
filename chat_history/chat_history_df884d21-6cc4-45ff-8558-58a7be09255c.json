@@ -1,0 +1,12 @@
+[
+    {
+        "timestamp": "2025-02-15T14:35:31.114708",
+        "user_message": "我得了感冒，该去哪里看病",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    },
+    {
+        "timestamp": "2025-02-15T14:36:32.071861",
+        "user_message": "我得了感冒，该去哪里看病",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    }
+]

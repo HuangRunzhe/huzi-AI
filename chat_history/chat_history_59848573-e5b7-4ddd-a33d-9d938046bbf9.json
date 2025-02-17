@@ -1,0 +1,12 @@
+[
+    {
+        "timestamp": "2025-02-14T07:12:34.726309",
+        "user_message": "你怎么看待导师压榨学生不让学生毕业",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    },
+    {
+        "timestamp": "2025-02-14T07:12:47.250969",
+        "user_message": "你怎么看中医",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    }
+]

@@ -1,0 +1,27 @@
+[
+    {
+        "timestamp": "2025-02-15T08:50:24.400934",
+        "user_message": "苹果手机不如安卓",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    },
+    {
+        "timestamp": "2025-02-15T08:50:34.203111",
+        "user_message": "你好",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    },
+    {
+        "timestamp": "2025-02-15T08:51:18.393088",
+        "user_message": "你好",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    },
+    {
+        "timestamp": "2025-02-15T08:52:15.302187",
+        "user_message": "习近平",
+        "bot_response": "无法回答"
+    },
+    {
+        "timestamp": "2025-02-15T08:52:24.700519",
+        "user_message": "胡晨风",
+        "bot_response": "生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}"
+    }
+]

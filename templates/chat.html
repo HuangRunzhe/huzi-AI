@@ -253,7 +253,7 @@
       <input
         id="user-input"
         type="text"
-        placeholder="请输入您的问题或观点..."
+        placeholder="不要寒暄，请直接发表你的观点!..."
         class="input-field"
       />
       <button id="send-button" class="send-button">
@@ -390,7 +390,9 @@
     // 聊天服务
     const chatService = {
       isProcessing: false,
-
+    
+        
+        
       async sendMessage() {
         if (this.isProcessing) return;
 
@@ -430,6 +432,7 @@
           // 显示 AI 回复
           messageHandler.appendMessage(data.response || '无法生成回复', false);
           messageHandler.scrollToBottom();
+
         } catch (error) {
           console.error('消息发送失败:', error);
           // 若失败也移除思考提示
@@ -452,6 +455,7 @@
       }
     });
 
+    
     // 初始化
     session.init();
   </script>
