@@ -8,6 +8,8 @@ import os
 from datetime import datetime
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
+from flask import render_template
+
 # 配置日志
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -16,7 +18,7 @@ app = Flask(__name__)
 CORS(app)  # 启用 CORS
 
 # 初始化 DeepSeek 客户端
-client = OpenAI(api_key="sk-c03lFJ6UIxR8uVhcfnb666mUkuVvTMaPObaa2VgSqizcIbKwYU", base_url="https://tbnx.plus7.plus/v1")
+client = OpenAI(api_key="sk-fanUWx2HJOPgTj0Oa0DNqIHsV2aw2UypGD8gL1s794ph2orf", base_url="https://tbnx.plus7.plus/v1")
 
 # 加载知识库数据
 with open("huchenfeng_dialog_deepseek.json", "r", encoding="utf-8") as f:
@@ -255,26 +257,38 @@ def feedback():
         return jsonify({"message": "服务器错误，请稍后再试"}), 500
 
 
-ADMIN_PASSWORD = "265536"
 
-@app.route("/get_feedback", methods=["POST"])
+@app.route("/get_feedback", methods=["GET"])
 def get_feedback():
-    """返回所有用户反馈（需要身份验证）"""
+    """返回所有用户反馈"""
     try:
-        data = request.json
-        input_password = data.get("password", "")
-
-        if input_password != ADMIN_PASSWORD:
-            return jsonify({"error": "密码错误，禁止访问"}), 403
-
         with open(FEEDBACK_FILE, "r", encoding="utf-8") as f:
             feedback_list = json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         feedback_list = []
 
     return jsonify({"feedback": feedback_list})
+    
+@app.route('/')
+def home():
+    return render_template('index.html')  # 返回一个 HTML 页面
 
+@app.route("/chat_page")
+def chat_page():
+    return render_template("chat.html")
+
+@app.route("/donate")
+def donate():
+    return render_template("donate.html")
+
+@app.route("/feedback_page")
+def feedback_page():
+    return render_template("feedback.html")
+
+@app.route("/view_feedback_page")
+def view_feedback_page():
+    return render_template("view_feedback.html")
 
 # 启动 Flask 应用
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=7860, debug=False)
+    app.run(host="0.0.0.0", port=8090, debug=False)
