@@ -18,7 +18,7 @@ app = Flask(__name__)
 CORS(app)  # 启用 CORS
 
 # 初始化 DeepSeek 客户端
-client = OpenAI(api_key="sk-fanUWx2HJOPgTj0Oa0DNqIHsV2aw2UypGD8gL1s794ph2orf", base_url="https://tbnx.plus7.plus/v1")
+client = OpenAI(api_key="sk-fanUWx2HJO2aw2UypGD8gL1s7orf", base_url="https://tbnx.plus7.plus/v1")
 
 # 加载知识库数据
 with open("huchenfeng_dialog_deepseek.json", "r", encoding="utf-8") as f:
