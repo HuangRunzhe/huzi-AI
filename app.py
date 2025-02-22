@@ -289,6 +289,13 @@ def feedback_page():
 def view_feedback_page():
     return render_template("view_feedback.html")
 
+@app.before_request
+def check_android():
+    user_agent = request.headers.get('User-Agent').lower()
+    # 只检测是否是安卓设备
+    if 'android' in user_agent:
+        return "安卓设备用户请使用iPhone进行访问！", 403  # 返回禁止访问的提示
+
 # 启动 Flask 应用
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8090, debug=False)
