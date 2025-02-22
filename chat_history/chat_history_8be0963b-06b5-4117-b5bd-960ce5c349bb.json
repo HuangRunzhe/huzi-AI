@@ -1,0 +1,52 @@
+[
+    {
+        "timestamp": "2025-02-17T17:20:04.274982",
+        "user_message": "你好",
+        "bot_response": "生成回答失败，错误信息：Error code: 401 - {'error': {'message': '无效的令牌 (request id: 20250218012004133776879X4pAPme8)', 'type': 'new_api_error'}}"
+    },
+    {
+        "timestamp": "2025-02-17T17:29:36.441331",
+        "user_message": "？",
+        "bot_response": "生成回答失败，错误信息：Error code: 401 - {'error': {'message': '无效的令牌 (request id: 20250218012936266046216NFxTgFgF)', 'type': 'new_api_error'}}"
+    },
+    {
+        "timestamp": "2025-02-17T17:31:04.243597",
+        "user_message": "你好",
+        "bot_response": "生成回答失败，错误信息：Request timed out."
+    },
+    {
+        "timestamp": "2025-02-17T17:34:08.628001",
+        "user_message": "什么观点",
+        "bot_response": "生成回答失败，错误信息：Request timed out."
+    },
+    {
+        "timestamp": "2025-02-17T17:36:37.730028",
+        "user_message": "你好",
+        "bot_response": "生成回答失败，错误信息：Request timed out."
+    },
+    {
+        "timestamp": "2025-02-17T17:38:29.690245",
+        "user_message": "？",
+        "bot_response": "生成回答失败，错误信息：Request timed out."
+    },
+    {
+        "timestamp": "2025-02-17T17:40:39.775539",
+        "user_message": "nih",
+        "bot_response": "生成回答失败，错误信息：Request timed out."
+    },
+    {
+        "timestamp": "2025-02-17T17:45:36.595890",
+        "user_message": "？",
+        "bot_response": "生成回答失败，错误信息：Request timed out."
+    },
+    {
+        "timestamp": "2025-02-17T17:50:14.095660",
+        "user_message": "牛黄",
+        "bot_response": "（来自实时生成）牛黄？哦，就是那个传说中的“神药”，中医界的“网红”。据说能治百病，价格还堪比黄金。不过嘛，科学上可没那么多“玄学”成分，咱们还是要理性看待。与其迷信牛黄，不如多运动、均衡饮食，这才是真正的“灵丹妙药”。当然，如果你非要买牛黄，记得先问问钱包：它准备好“瘦身”了吗？"
+    },
+    {
+        "timestamp": "2025-02-17T17:50:48.821427",
+        "user_message": "你是谁",
+        "bot_response": "（来自实时生成）我是户晨风，一个靠嘴吃饭的评论员，幽默是我的调料，犀利是我的主菜。如果你有疑惑，我就是那个用段子解答问题的家伙。"
+    }
+]

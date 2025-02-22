@@ -19,7 +19,66 @@
   </script>
 </head>
 
-<body class="bg-gray-900 text-gray-100 font-sans">
+<body class="bg-gray-900 text-white">
+
+<style>
+    /* 背景设置 */
+    body {
+      background: url('static/img/background2.jpg') no-repeat center ; /* 向下偏移 150px */
+      background-size: contain; /* 图片完整显示 */
+      box-sizing: border-box; /* 防止边框影响页面布局 */
+      min-height: 100vh; /* 确保背景高度填充视窗 */
+    }
+
+/* 手机端背景效果 */
+@media (max-width: 768px) {
+  body {
+    background: url('static/img/background2.jpg') no-repeat center top; /* 背景图位于顶部 */
+    background-size: contain; /* 保证背景图完整显示 */
+    background-attachment: fixed; /* 背景图固定不随页面滚动 */
+    background-position: top center; /* 保证背景图紧贴顶部并居中 */
+    min-height: 100vh; /* 确保背景图填充整个视窗 */
+    margin: 0; /* 清除外边距 */
+    overflow-x: hidden; /* 防止水平滚动 */
+  }
+
+  /* 保证页面内容不被背景图遮挡 */
+  .content {
+    position: relative;
+    z-index: 1; /* 保证内容显示在背景图之上 */
+  }
+}
+
+
+
+
+
+
+  </style>
+
+
+ <!-- 免责声明弹窗 -->
+  <div id="consent-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div class="bg-white p-8 rounded-xl max-w-lg w-full text-center shadow-lg">
+      <h2 class="text-3xl font-bold text-red-500 mb-6">使用须知与免责声明</h2>
+      <p class="text-gray-800 mb-4">
+        欢迎使用 AI 户晨风 服务！在使用本平台之前，请务必阅读以下免责声明：
+      </p>
+      <ul class="list-disc list-inside text-gray-600 mb-6">
+        <li>1️⃣ 本平台提供的所有内容仅供娱乐、教育和参考使用。</li>
+        <li>2️⃣ 用户在与 AI 户晨风进行对话时，应遵守互联网规范。（若不遵守后果自负！）</li>
+        <li>3️⃣ 本平台不对用户行为负责。</li>
+        <li> 与户晨风先生本人无关</li>
+      </ul>
+      <button 
+        onclick="acceptConsent()"
+        class="bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg text-lg shadow-lg transition">
+        我同意，进入平台
+      </button>
+    </div>
+  </div>
+
+
   <!-- Header -->
   <header class="bg-gradient-to-r from-blue-500 to-indigo-600 py-6 shadow-lg">
     <div class="container mx-auto text-center">
@@ -44,7 +103,7 @@
         </div>
         <!-- 文本部分 -->
         <div class="text-left">
-          <p class="text-gray-300 leading-relaxed text-lg mb-4">
+          <p class="text-white leading-relaxed text-lg mb-4">
             AI 户晨风是一款基于 
             <span class="text-indigo-300 font-semibold">最新大语言模型技术</span>
             开发的对话助手，以 
@@ -52,7 +111,7 @@
             <span class="text-red-300 font-semibold">犀利独特</span> 的方式回答您的问题。
             <span class="text-green-300">目前版本(Version-1)</span>
           </p>
-          <ul class="list-disc list-inside text-gray-400 space-y-2">
+          <ul class="list-disc list-inside text-white space-y-2">
             <li>📌 语料来源于户晨风先生的微博内容，方便获取且信息质量高</li>
             <li>🎙️ 未来将加入录播转文字，提升观点和语言风格注入量</li>
             <li>💡 采用 <span class="text-indigo-400">DeepSeek API + 户晨风简易语料库</span> 进行对话</li>
@@ -65,11 +124,11 @@
     <!-- 赞助支持（毛玻璃效果） -->
     <section class="bg-white/10 backdrop-filter backdrop-blur-lg rounded-lg p-8 shadow-lg text-center mx-auto max-w-3xl">
       <h2 class="text-3xl font-bold text-green-400 mb-4">支持 AI 户晨风</h2>
-      <p class="text-gray-300 mb-6">
+      <p class="text-white mb-6">
         这个项目需要您的支持！如果您喜欢 AI 户晨风，可以通过以下方式帮助我们维持运营：
       </p>
       <a 
-        href="/templates/donate.html" 
+        href="/donate" 
         class="bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg text-lg shadow-lg transition"
       >
         立即支持 🚀
@@ -79,11 +138,11 @@
     <!-- 对话功能 -->
     <section class="text-center">
       <h2 class="text-3xl font-bold mb-4 text-blue-400">来和 AI 户晨风辩一辩！</h2>
-      <p class="text-gray-300 mb-6">
+      <p class="text-white mb-6">
         立即与 AI 户晨风互动，体验幽默风趣的对话功能！
       </p>
       <a 
-        href="/templates/chat.html" 
+        href="/chat_page" 
         class="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg text-lg shadow-lg transition"
       >
         开始对话 💬
@@ -104,7 +163,14 @@
           <tbody>
             <tr class="bg-gray-700">
               <td class="p-2 border border-gray-700">
-                <span class="text-red-600 font-semibold">[最新]</span>02-15 20:42
+                <span class="text-red-600 font-semibold">[最新]</span>02-17 1:26
+              </td>
+              <td class="p-2 border border-gray-700 text-green-400 font-bold">
+                服务器出点小状况，紧急修复。
+              </td>
+            <tr class="bg-gray-800">
+              <td class="p-2 border border-gray-700">
+                <span class="text-red-600 font-semibold"></span>02-15 20:42
               </td>
               <td class="p-2 border border-gray-700 text-green-400 font-bold">
                 又买了十块钱的API现在可以对话了
@@ -149,7 +215,7 @@
         <!-- 幽默风趣（毛玻璃小卡片也可） -->
         <div class="bg-white/10 backdrop-filter backdrop-blur-lg rounded-lg shadow-lg p-6">
           <h3 class="text-xl font-semibold text-yellow-300 mb-2">🤹 幽默风趣</h3>
-          <p class="text-gray-400">
+          <p class="text-white">
             AI 户晨风总是用幽默的语言化解问题，让对话变得轻松愉快。
           </p>
           <!-- 示例对话 -->
@@ -178,7 +244,7 @@
         <!-- 犀利见解 -->
         <div class="bg-white/10 backdrop-filter backdrop-blur-lg rounded-lg shadow-lg p-6">
           <h3 class="text-xl font-semibold text-red-300 mb-2">🧠 犀利见解</h3>
-          <p class="text-gray-400">
+          <p class="text-white">
             模型能够从不同角度看问题，给出深刻的见解。
           </p>
           <!-- 示例对话 -->
@@ -207,7 +273,7 @@
         <!-- 个性化回答 -->
         <div class="bg-white/10 backdrop-filter backdrop-blur-lg rounded-lg shadow-lg p-6">
           <h3 class="text-xl font-semibold text-green-300 mb-2">🎯 个性化回答</h3>
-          <p class="text-gray-400">
+          <p class="text-white">
             模型根据提问内容生成专属的回答，模拟户晨风的语气和风格。
           </p>
           <!-- 示例对话 -->
@@ -239,11 +305,11 @@
   <!-- 改进 & 反馈 -->
   <section class="text-center mt-12">
     <h2 class="text-3xl font-bold mb-4 text-yellow-400">帮助我们改进！</h2>
-    <p class="text-gray-300 mb-6">
+    <p class="text-white mb-6">
       有任何问题或建议？请告诉我们！
     </p>
     <a 
-      href="/templates/feedback.html" 
+      href="/feedback_page" 
       class="bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-6 rounded-lg text-lg shadow-lg transition"
     >
       提交反馈 📝
@@ -252,18 +318,29 @@
 
   <section class="text-center mt-12">
     <h2 class="text-3xl font-bold mb-4 text-yellow-400">管理用户反馈</h2>
-    <p class="text-gray-300 mb-6">
+    <p class="text-white mb-6">
       查看用户提交的问题和建议
     </p>
     <a 
-      href="/templates/view_feedback.html" 
+      href="/view_feedback_page" 
       class="bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-6 rounded-lg text-lg shadow-lg transition"
     >
       查看反馈 📋
     </a>
   </section>
 
+  <script>
+    // 检查是否已经同意过
+    if (localStorage.getItem('consentAccepted')) {
+      document.getElementById('consent-modal').style.display = 'none';
+    }
 
+    // 用户同意后，存储状态并关闭弹窗
+    function acceptConsent() {
+      localStorage.setItem('consentAccepted', 'true');
+      document.getElementById('consent-modal').style.display = 'none';
+    }
+  </script>
   <!-- Footer（可选是否也用毛玻璃）-->
   <footer class="bg-gray-800 py-4 mt-8">
     <div class="container mx-auto text-center">

@@ -58,5 +58,15 @@
         "timestamp": "2025-02-17T05:39:52.640234",
         "feedback_text": "<script>alert(1);",
         "contact_info": "auto@example.com"
+    },
+    {
+        "timestamp": "2025-02-17T17:52:33.030891",
+        "feedback_text": "修复测试",
+        "contact_info": ""
+    },
+    {
+        "timestamp": "2025-02-21T10:07:28.672473",
+        "feedback_text": "没法发送",
+        "contact_info": ""
     }
 ]
