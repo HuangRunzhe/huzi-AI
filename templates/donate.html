@@ -23,14 +23,56 @@
         <section class="mb-12">
             <h2 class="text-3xl font-bold mb-6">为什么需要您的支持？</h2>
             <p class="text-gray-300 max-w-2xl mx-auto leading-relaxed">
-                AI 户晨风依赖 DeepSeek API 和服务器运行，持续改进和维护都需要资源。
+                AI 户晨风依赖 算力 和服务器运行，持续改进和维护都需要资源。
                 如果您喜欢这个项目，欢迎通过以下方式支持我们！
             </p>
-            <p class="text-gray-300 max-w-2xl mx-auto leading-relaxed">
-                所有赞助收入都会公开!
-            </p>
-            <a  class="text-blue-400 hover:underline">赞助后请主动联系我留下你的id与头像（B站私信）or (vx：_6F4A3R) or Github</a>
         </section>
+
+
+<!-- 包月服务与购买股份合并 -->
+<section class="mt-8">
+    <h2 class="text-3xl font-bold mb-6 text-indigo-400">💡 包月服务 & 🚀 购买未来商业化股份</h2>
+    <p class="text-gray-300 max-w-2xl mx-auto leading-relaxed mb-6">
+        每月仅需 <strong>3.88 元</strong>，即可享受更多高级功能和更优质的服务支持！（Huzi AI-V2）
+        <br><br>
+        除了包月服务外，每 <strong>20元</strong> 可获得 <strong>1%</strong> 的未来商业化股份！加入我们，共同成长。
+    </p>
+    <div class="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center mb-8">
+        <h3 class="text-xl font-semibold mb-2">选择您的服务</h3>
+        <p class="text-gray-400 text-sm mb-4">选择包月服务，帮助我们维持项目的长期发展，或者选择购买股份，成为我们的一部分，享受未来回报。</p>
+        <button id="scrollButton" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg mt-4">
+            立即选择服务（下方扫码选择方式）
+        </button>
+    </div>
+</section>
+
+<!-- 滚动目标区域 -->
+<section id="targetSection" class="mt-8 bg-gray-700 p-6 rounded-lg">
+     <a  class="text-blue-400 hover:underline">赞助后请主动联系我留下你的id与头像（B站私信）or (vx：_6F4A3R) or Github</a><br/>
+        <button id="scrollButton2" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-lg mt-4">
+            联系方式（下方扫码选择方式）
+        </button>
+    <h3 class="text-xl text-white">扫码选择支付方式</h3>
+    <!-- 可以插入扫码图标或其他支付信息 -->
+</section>
+
+<script>
+    // 滚动效果实现
+    document.getElementById('scrollButton').addEventListener('click', function() {
+        document.getElementById('targetSection').scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+</script>
+
+<script>
+    // 滚动效果实现
+    document.getElementById('scrollButton2').addEventListener('click', function() {
+        document.getElementById('targetSection2').scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+</script>
 
         <!-- 赞助方式 -->
         <section class="mt-8">
@@ -50,6 +92,8 @@
                     <h3 class="text-xl font-semibold mb-2">支付宝赞助</h3>
                     <p class="text-gray-400 text-sm">您的支持是我们前进的动力！</p>
                 </div>
+
+
 
         <!-- GitHub Star 支持 -->
         <div class="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center">
@@ -90,36 +134,64 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- 支持者 1 -->
-                    <tr class="bg-gray-700">
-                        <td class="p-3 text-center flex items-center justify-center space-x-4">
-                            <!-- 头像 -->
-                            <img src="/static/img/sponsors/yours.jpg" alt="Yours" class="w-10 h-10 rounded-full border-2 border-indigo-500 shadow-sm">
-                            <!-- 名字 -->
-                            <span class="text-indigo-400 text-xl font-semibold hover:text-indigo-600 transition duration-300">Yours</span>
-                        </td>
-                        <td class="p-3 text-center text-green-400 font-semibold">52元</td>
-                    </tr>
-                    <!-- 支持者 2 -->
-                    <tr class="bg-gray-700">
-                        <td class="p-3 text-center flex items-center justify-center space-x-4">
-                            <!-- 头像 -->
-                            <img src="/static/img/sponsors/kandeng.jpg" alt="Yours" class="w-10 h-10 rounded-full border-2 border-indigo-500 shadow-sm">
-                            <!-- 名字 -->
-                            <span class="text-indigo-400 text-xl font-semibold hover:text-indigo-600 transition duration-300">看灯</span>
-                        </td>
-                        <td class="p-3 text-center text-green-400 font-semibold">28元</td>
-                    </tr>
-        
+<!-- 支持者 1 -->
+<tr class="bg-gray-700">
+    <td class="p-3 text-center flex items-center justify-center space-x-4">
+        <!-- 头像 -->
+        <img src="/static/img/sponsors/yours.jpg" alt="Yours" class="w-10 h-10 rounded-full border-2 border-indigo-500 shadow-sm">
+        <!-- 名字 -->
+        <span class="text-indigo-400 text-xl font-semibold hover:text-indigo-600 transition duration-300">Yours</span>
+    </td>
+    <td class="p-3 text-center text-green-400 font-semibold">52元</td>
+</tr>
+<!-- 支持者 2（第二个支持者，贡献2%）-->
+<tr class="bg-gray-700">
+    <td class="p-3 text-center flex items-center justify-center space-x-4">
+        <!-- 头像 -->
+        <img src="/static/img/sponsors/jiesen.png" alt="普通的杰森" class="w-12 h-12 rounded-full border-4 border-indigo-600 shadow-lg">
+        <!-- 名字 -->
+        <span class="text-indigo-500 text-2xl font-bold hover:text-indigo-700 transition duration-300">普通的杰森</span>
+        <!-- 股东标签 -->
+        <span class="ml-2 bg-yellow-500 text-white text-sm py-1 px-2 rounded-full font-semibold">股东</span>
+        <span class="ml-2 bg-indigo-500 text-white text-sm py-1 px-2 rounded-full font-semibold">占股 2% 📈</span>
+    </td>
+    <td class="p-3 text-center text-green-400 font-semibold">40元</td>
+</tr>
+<!-- 支持者 3 -->
+<tr class="bg-gray-700">
+    <td class="p-3 text-center flex items-center justify-center space-x-4">
+        <!-- 头像 -->
+        <img src="/static/img/sponsors/kandeng.jpg" alt="看灯" class="w-10 h-10 rounded-full border-2 border-indigo-500 shadow-sm">
+        <!-- 名字 -->
+        <span class="text-indigo-400 text-xl font-semibold hover:text-indigo-600 transition duration-300">看灯</span>
+    </td>
+    <td class="p-3 text-center text-green-400 font-semibold">28元</td>
+</tr>
+<!-- 支持者 4 -->
+<tr class="bg-gray-700">
+    <td class="p-3 text-center flex items-center justify-center space-x-4">
+        <!-- 头像 -->
+        <img src="/static/img/sponsors/chalanzi.jpg" alt="茶兰子" class="w-10 h-10 rounded-full border-2 border-indigo-500 shadow-sm">
+        <!-- 名字 -->
+        <span class="text-indigo-400 text-xl font-semibold hover:text-indigo-600 transition duration-300">茶兰子</span>
+    </td>
+    <td class="p-3 text-center text-green-400 font-semibold">10元</td>
+</tr>
+        <h2>。..还有数位赞助B友未留下id</h2>
                 </tbody>
             </table>
         </div>
         
         </section>            
 
-        
-        
-
+        <section id="targetSection2" class="mt-8 bg-gray-700 p-6 rounded-lg">
+                                               <!-- 联系 -->
+                <div class="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center">
+                    <img src="/static/img/vx_contact.jpg" alt="联系方式二维码" class="w-40 h-40 rounded-lg mb-4 shadow-md">
+                    <h3 class="text-xl font-semibold mb-2">联系方式</h3>
+                    <p class="text-gray-400 text-sm">您的支持是我们前进的动力！</p>
+                </div> 
+        </section>
         <!-- 返回主页按钮 -->
         <section class="mt-12">
             <a href="/" class="bg-blue-500 hover:bg-blue-600 text-white py-4 px-6 rounded-lg text-lg shadow-lg">

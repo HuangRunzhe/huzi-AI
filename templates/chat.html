@@ -239,6 +239,8 @@
     <div class="text-center">
       <h1 class="text-3xl font-bold">AI 户晨风 - 对话功能</h1>
       <p class="mt-1 text-gray-200">实时与 AI 户晨风互动，获取犀利幽默的回答</p>
+      <p id="userID"></p>
+
     </div>
   </header>
 
@@ -246,6 +248,9 @@
   <main class="chat-container" id="chat-container">
     <div id="chat-box"></div>
   </main>
+
+
+
 
   <!-- 底部固定的输入栏 -->
   <div class="input-container">
@@ -290,7 +295,7 @@
       createMessageElement(content, isUser) {
         const element = document.createElement('div');
         element.className = `message ${isUser ? 'user' : 'bot'}`;
-        element.textContent = content;
+        element.innerHTML = content;
         return element;
       },
 
@@ -385,7 +390,53 @@
           console.error('加载历史记录失败:', error);
         }
       }
+      
+      
+      
     };
+
+
+// 检查余额
+async function checkBalance() {
+  try {
+    const response = await fetch(`/check_balance?sessionID=${session.id}`);
+    const data = await response.json();
+    
+    if (data.balance < 2) {
+      const userID = data.userID;  // 获取用户ID
+      const balance = data.balance;  // 获取余额
+
+    // 显示带有余额和ID的信息
+    const message = `
+      您的用户ID是：${userID}，您的余额为：${balance}    元，请先打赏2元以继续与AI小户对话！2元7天，不可能不交！<br>
+      请点击此链接前往打赏页面：<a href="/donate" target="_blank" style="color: #1e90ff;     text-decoration: underline;">点击打赏</a>（记得备注你的用户ID！）
+    `;
+
+      
+      messageHandler.appendMessage(message, false);
+      messageHandler.scrollToBottom();
+      return false;
+    }
+
+    // 显示用户ID和余额
+    const userID = data.userID;
+    const sessionID = data.sessionID;
+    
+    document.getElementById('userID').textContent = `您的用户ID是：${userID}`;
+    
+    console.log('Session ID:', sessionID);
+    
+    return true;
+  } catch (error) {
+    console.error('余额检查失败:', error);
+    messageHandler.appendMessage(" 您余额不足，请打赏AI小户后使用！2元7天，不可能不交！", false);
+    messageHandler.scrollToBottom();
+    return false;
+  }
+}
+
+
+
 
     // 聊天服务
     const chatService = {
@@ -393,58 +444,65 @@
     
         
         
-      async sendMessage() {
-        if (this.isProcessing) return;
-
-        const message = userInput.value.trim();
-        if (!message) return;
-
-        this.isProcessing = true;
-        sendButton.disabled = true;
-
-        try {
-          // 用户消息
-          messageHandler.appendMessage(message, true);
-          messageHandler.scrollToBottom();
-          userInput.value = '';
-
-          // 显示 "AI 正在思考" 提示
-          messageHandler.showTypingIndicator();
-
-          // 请求 AI 回复
-          const response = await fetch(config.api.chat, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              sessionID: session.id,
-              message
-            })
-          });
-
-          if (!response.ok) {
-            throw new Error(`HTTP错误: ${response.status}`);
-          }
-
-          // 移除思考提示
-          messageHandler.removeTypingIndicator();
-
-          const data = await response.json();
-          // 显示 AI 回复
-          messageHandler.appendMessage(data.response || '无法生成回复', false);
-          messageHandler.scrollToBottom();
-
-        } catch (error) {
-          console.error('消息发送失败:', error);
-          // 若失败也移除思考提示
-          messageHandler.removeTypingIndicator();
-          // 给出提示
-          messageHandler.appendMessage('服务暂时不可用，请稍后重试', false);
-          messageHandler.scrollToBottom();
-        } finally {
-          this.isProcessing = false;
-          sendButton.disabled = false;
+        
+        
+    async sendMessage() {
+      if (this.isProcessing) return;
+    
+      const message = userInput.value.trim();
+      if (!message) return;
+    
+      // 先检查余额
+      const isBalanceOk = await checkBalance();
+      if (!isBalanceOk) return;
+    
+      this.isProcessing = true;
+      sendButton.disabled = true;
+    
+      try {
+        // 用户消息
+        messageHandler.appendMessage(message, true);
+        messageHandler.scrollToBottom();
+        userInput.value = '';
+    
+        // 显示 "AI 正在思考" 提示
+        messageHandler.showTypingIndicator();
+    
+        // 请求 AI 回复
+        const response = await fetch(config.api.chat, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionID: session.id,
+            message
+          })
+        });
+    
+        if (!response.ok) {
+          throw new Error(`HTTP错误: ${response.status}`);
         }
+    
+        // 移除思考提示
+        messageHandler.removeTypingIndicator();
+    
+        const data = await response.json();
+        // 显示 AI 回复
+        messageHandler.appendMessage(data.response || '无法生成回复', false);
+        messageHandler.scrollToBottom();
+    
+      } catch (error) {
+        console.error('消息发送失败:', error);
+        // 若失败也移除思考提示
+        messageHandler.removeTypingIndicator();
+        // 给出提示
+        messageHandler.appendMessage('服务暂时不可用，请稍后重试', false);
+        messageHandler.scrollToBottom();
+      } finally {
+        this.isProcessing = false;
+        sendButton.disabled = false;
       }
+    }
+
     };
 
     // 事件绑定

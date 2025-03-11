@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,session
 from flask_cors import CORS
 from openai import OpenAI
 from difflib import SequenceMatcher
@@ -21,7 +21,7 @@ CORS(app)  # 启用 CORS
 client = OpenAI(api_key="sk-fanUWx2HJOPgTj0Oa0DNqIHsV2aw2UypGD8gL1s794ph2orf", base_url="https://tbnx.plus7.plus/v1")
 
 # 加载知识库数据
-with open("huchenfeng_dialog_deepseek.json", "r", encoding="utf-8") as f:
+with open("Data/huchenfeng_dialog_deepseek.json", "r", encoding="utf-8") as f:
     knowledge_base = json.load(f)
 
 # 户晨风的核心观点
@@ -38,7 +38,7 @@ CHAT_HISTORY_DIR = "chat_history"
 os.makedirs(CHAT_HISTORY_DIR, exist_ok=True)  # 创建目录（如果不存在）
 
 # 反馈存储文件
-FEEDBACK_FILE = "feedback.json"
+FEEDBACK_FILE = "Data/feedback.json"
 # 敏感词文件路径
 SENSITIVE_WORDS_FILE = "/www/wwwroot/secret_file/sensitive_words_lines.txt"
 
@@ -92,20 +92,28 @@ def search_knowledge_base(user_input, threshold=0.4):
     return None, None
 
 
-# 调用 DeepSeek 生成回答
 def generate_response_with_deepseek(user_input, predefined_attitude=None):
     """调用 DeepSeek 生成回答，并注入明确态度"""
     prompt = f"""
-    你是户晨风，一位幽默且犀利的评论员。以下是你的核心观点但是只在用户问到的时候再回答！：
-    1. 支持高铁私有化
-    2. 反对文言文
-    3. 反对中医
-    4. 支持大学开放
-    (用户没问到相关问题就别说观点，只回答用户关心的和提问的！禁止回答用户没有问到的问题，禁止答非所问，禁止强行添加你的观点！！)
+    你是户晨风，一位幽默且犀利的评论员。以下是你的核心观点，但只在用户问到时才提及：
+    1. 支持高铁私有化，认为公营高铁效率低、服务差，私有化可以提高效率和竞争力。
+    2. 反对文言文，认为文言文已经不再适应现代社会的沟通需求，现代教育应当关注实用性。
+    3. 反对中医，认为中医体系缺乏科学依据，且常常被过度神话。
+    4. 支持大学开放，认为大学应当追求学术自由，给学生更多自主选择的权利。
+    
+    一些常见的替代词，你要能读懂：
+    1.”碧养地“就是代指”比亚迪“
+    2.”菊花“代指”华为“
+    3.”某米“代指”小米“
+    3.“痢疾”代指”吉利汽车“
+    请注意：当用户没有问到这些观点时，不要主动提及，仅回答他们的问题！不要回答用户没有问到的内容，不要偏离主题，更不能强行加上你自己的观点。
+    你是用的手机：1TB版本的iPhone 16 Pro
     用户提问：{user_input}
     {f"你的态度是：{predefined_attitude}" if predefined_attitude else ""}
-    请生成一段完整的回答，简洁幽默并符合你的态度：
+
+    请生成一段符合你风格的回答，简洁且幽默，并且加入批判性的视角。如果有必要，你可以适当使用一些讽刺、反问或夸张的语气来增强效果，但一定要直接有力：
     """
+    
     try:
         response = client.chat.completions.create(
             model="deepseek-chat",
@@ -118,9 +126,12 @@ def generate_response_with_deepseek(user_input, predefined_attitude=None):
             max_tokens=300,
             stop=["\n"]
         )
+        
         return f"（来自实时生成）{response.choices[0].message.content.strip()}"
+
     except Exception as e:
         return f"生成回答失败，错误信息：{e}"
+
 
 
 # 生成 AI 回答
@@ -268,7 +279,68 @@ def get_feedback():
         feedback_list = []
 
     return jsonify({"feedback": feedback_list})
-    
+
+
+
+
+# 读取 balances.json 文件
+def load_balances():
+    try:
+        with open('Data/balances.json', 'r', encoding='utf-8') as f:
+            # 如果文件为空，直接返回一个空字典
+            content = f.read().strip()
+            if not content:
+                return {}
+            return json.loads(content)
+    except FileNotFoundError:
+        return {}
+    except json.JSONDecodeError:
+        # 如果文件存在但是无法解析，清空文件并返回空字典
+        with open('Data/balances.json', 'w', encoding='utf-8') as f:
+            f.write("{}")  # 写入空字典
+        return {}
+
+# 更新 balances.json 文件
+def save_balances(balances):
+    with open('Data/balances.json', 'w', encoding='utf-8') as f:
+        json.dump(balances, f, ensure_ascii=False, indent=4)
+
+# 为每个session生成一个简短数字ID
+def generate_user_id(balances):
+    return len(balances) + 1  # 用现有的用户数生成一个新的ID
+
+@app.route('/check_balance', methods=['GET'])
+def check_balance():
+    session_id = request.args.get('sessionID')
+    if not session_id:
+        return jsonify({"error": "sessionID is required"}), 400
+
+    # 读取余额数据
+    balances = load_balances()
+
+    # 如果该用户没有余额记录，初始化余额为 0，并生成一个简短的数字ID
+    if session_id not in balances:
+        user_id = generate_user_id(balances)
+        balances[session_id] = {"balance": 0, "userID": user_id}
+        save_balances(balances)  # 保存更新后的余额数据
+
+    # 获取用户余额和用户ID
+    balance = balances.get(session_id, {}).get("balance", 0)
+    user_id = balances.get(session_id, {}).get("userID")
+
+    print(f"Returning balance and userID: {balance}, {user_id}")  # 打印调试信息
+
+    # 向前端返回余额和一个消息，告知用户ID
+    return jsonify({
+        "balance": balance,
+        "userID": user_id,
+        "message": f"您的用户ID是：{user_id}",
+        "sessionID": session_id  # 显示sessionID，方便前端关联
+    })
+
+
+
+
 @app.route('/')
 def home():
     return render_template('index.html')  # 返回一个 HTML 页面
@@ -288,6 +360,10 @@ def feedback_page():
 @app.route("/view_feedback_page")
 def view_feedback_page():
     return render_template("view_feedback.html")
+
+@app.route("/intro")
+def intro_page():
+    return render_template("intro.html")
 
 # 启动 Flask 应用
 if __name__ == "__main__":
