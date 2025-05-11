@@ -1,5 +1,4 @@
 [
-
     {
         "timestamp": "2025-02-15T10:49:15.370146",
         "feedback_text": "输入你好，ai回复：生成回答失败，错误信息：Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}",
@@ -24,6 +23,10 @@
         "timestamp": "2025-02-17T05:21:48.457764",
         "feedback_text": "<script>window.location='https://www.douyin.com/user/MS4wLjABAAAAuXLMS8TDun8gPyLuIZPIyqMiaaEsnGDKOwCVShRhPH4?from_tab_name=main';</script>",
         "contact_info": "1337018489@qq.com"
+    },
+    {
+        "timestamp": "2025-03-15T05:32:20.978289",
+        "feedback_text": "开源还收费，兄弟你nb。要么不收费，要么下线网站。户子只授权开源（↩️回复：我所有的成本都自己出吗？已经开源了，你可以自己搭建啊！这有什么好杠的？我已经说了是捐款）",
+        "contact_info": ""
     }
-
 ]

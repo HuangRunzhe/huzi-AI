@@ -240,14 +240,17 @@
       <h1 class="text-3xl font-bold">AI 户晨风 - 对话功能</h1>
       <p class="mt-1 text-gray-200">实时与 AI 户晨风互动，获取犀利幽默的回答</p>
       <p id="userID"></p>
-
+        
     </div>
   </header>
 
   <!-- 中间可滚动的聊天区 -->
   <main class="chat-container" id="chat-container">
     <div id="chat-box"></div>
+    <div id="loading-message" style="display: none;">正在播放，请稍等...</div>
+    <div id="progress-bar" style="width: 0%; background-color: green; height: 5px; display: none;"></div>
   </main>
+
 
 
 
@@ -266,7 +269,9 @@
       </button>
     </div>
   </div>
-
+  
+<!-- 播放控件 -->
+<audio id="ai-voice" style="display: none;"></audio>
   <!-- 脚本逻辑 -->
   <script>
     // DOM 选择器
@@ -274,7 +279,8 @@
     const chatBox = document.getElementById('chat-box');
     const userInput = document.getElementById('user-input');
     const sendButton = document.getElementById('send-button');
-
+    const audioPlayer = document.getElementById("ai-voice"); // 语音播放器
+    
     // 配置项
     const config = {
       avatars: {
@@ -394,6 +400,50 @@
       
       
     };
+async function playTTS(text) {
+  const loadingMessage = document.getElementById("loading-message");
+  const progressBar = document.getElementById("progress-bar");
+
+  // 显示进度条和提示
+  loadingMessage.style.display = "block";
+  progressBar.style.display = "block";
+
+  try {
+    const response = await fetch(`/tts?text=${encodeURIComponent(text)}`);
+
+    if (!response.ok) {
+      throw new Error(`TTS 请求失败: ${response.status}`);
+    }
+
+    const audioBlob = await response.blob();
+    const audioUrl = URL.createObjectURL(audioBlob);
+    const audio = new Audio(audioUrl);
+
+    // 播放音频时的进度更新
+    audio.addEventListener("play", () => {
+      // 模拟播放进度，您可以根据需要调整
+      let interval = setInterval(() => {
+        let progress = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = progress + "%";
+
+        if (audio.currentTime >= audio.duration) {
+          clearInterval(interval);
+        }
+      }, 100);
+    });
+
+    // 音频播放结束时，隐藏提示
+    audio.addEventListener("ended", () => {
+      loadingMessage.style.display = "none";
+      progressBar.style.display = "none";
+    });
+
+    audio.play();
+  } catch (error) {
+    console.error('TTS 播放失败:', error);
+    loadingMessage.innerText = "播放失败，请重试";
+  }
+}
 
 
 // 检查余额
@@ -409,10 +459,10 @@ async function checkBalance() {
     // 显示带有余额和ID的信息
     const message = `
       您的用户ID是：${userID}，您的余额为：${balance}    元，请先打赏2元以继续与AI小户对话！2元7天，不可能不交！<br>
-      请点击此链接前往打赏页面：<a href="/donate" target="_blank" style="color: #1e90ff;     text-decoration: underline;">点击打赏</a>（记得备注你的用户ID！）
+      请点击此链接前往打赏页面：<a href="/donate" target="_blank" style="color: #1e90ff;     text-decoration: underline;">点击打赏</a>（记得备注你的用户ID！）<br>或者给项目点击star也可免费使用！项目地址：<a href="https://github.com/HuangRunzhe/huzi-AI"  style="color: #1e90ff;     text-decoration: underline;" >点击这里</a>
     `;
 
-      
+      playTTS(message);
       messageHandler.appendMessage(message, false);
       messageHandler.scrollToBottom();
       return false;
@@ -430,10 +480,13 @@ async function checkBalance() {
   } catch (error) {
     console.error('余额检查失败:', error);
     messageHandler.appendMessage(" 您余额不足，请打赏AI小户后使用！2元7天，不可能不交！", false);
+    playTTS(" 您余额不足，请打赏AI小户后使用！2元7天，不可能不交！");
     messageHandler.scrollToBottom();
     return false;
   }
 }
+
+
 
 
 
@@ -486,10 +539,14 @@ async function checkBalance() {
         messageHandler.removeTypingIndicator();
     
         const data = await response.json();
+        
         // 显示 AI 回复
         messageHandler.appendMessage(data.response || '无法生成回复', false);
         messageHandler.scrollToBottom();
-    
+        
+        
+        // 播放 TTS 语音
+        playTTS(data.response);
       } catch (error) {
         console.error('消息发送失败:', error);
         // 若失败也移除思考提示

@@ -8,7 +8,7 @@
         "userID": 2
     },
     "6c2132ba-3008-44f6-87e9-e92913b208dc": {
-        "balance": 0,
+        "balance": 3,
         "userID": 3
     },
     "8069e83d-4396-4e0c-bb2e-840cad73b399": {
@@ -1222,5 +1222,329 @@
     "a3fbb5ba-cb20-4a11-aa8a-62c16c97ae18": {
         "balance": 0,
         "userID": 306
+    },
+    "1cf23e25-d220-414a-8471-91d58af33a87": {
+        "balance": 0,
+        "userID": 307
+    },
+    "f64680c0-323d-4824-a25b-89d80161c2ca": {
+        "balance": 0,
+        "userID": 308
+    },
+    "a2f61864-4091-4275-b67a-fa747c3d8deb": {
+        "balance": 0,
+        "userID": 309
+    },
+    "b3172d97-39ba-41b2-a36d-67ea502fd320": {
+        "balance": 0,
+        "userID": 310
+    },
+    "1b703cff-dc15-48fa-abdf-b3f898b308ee": {
+        "balance": 0,
+        "userID": 311
+    },
+    "379f8bf6-02d8-4bbe-a913-376392fbea03": {
+        "balance": 0,
+        "userID": 312
+    },
+    "61cc1c77-f466-47d2-b126-48bc9f1186d1": {
+        "balance": 0,
+        "userID": 313
+    },
+    "96132e48-fa6d-4340-acf0-c94df4162b38": {
+        "balance": 0,
+        "userID": 314
+    },
+    "295629a9-3a25-4354-8be2-e41b2a9b9202": {
+        "balance": 0,
+        "userID": 315
+    },
+    "b2d4c588-a44e-4287-b8ab-0a212fefd44c": {
+        "balance": 0,
+        "userID": 316
+    },
+    "ea8b82f7-cd66-4403-91ed-09f4b8ca6226": {
+        "balance": 0,
+        "userID": 317
+    },
+    "fcea07b0-dc77-4c5f-a1d2-70d39f4dd38a": {
+        "balance": 0,
+        "userID": 318
+    },
+    "0a1c0778-2887-45e3-b98c-df745f1194d6": {
+        "balance": 0,
+        "userID": 319
+    },
+    "8f3e580c-a2d6-4cfa-bba7-2e1ae20970d1": {
+        "balance": 0,
+        "userID": 320
+    },
+    "615b52b3-cf10-4b4d-84b0-83ab18bd4f8c": {
+        "balance": 0,
+        "userID": 321
+    },
+    "730dd511-42c0-4294-9e8c-26ddcb15974f": {
+        "balance": 0,
+        "userID": 322
+    },
+    "c5641cd7-774e-4b1d-ae64-7002c6535f81": {
+        "balance": 0,
+        "userID": 323
+    },
+    "637a2865-a11e-491e-b6c1-2daa0334e461": {
+        "balance": 0,
+        "userID": 324
+    },
+    "761981ba-81da-4abf-9d55-dea510532c9f": {
+        "balance": 0,
+        "userID": 325
+    },
+    "306f4107-bf71-4283-843d-56d739f7dd09": {
+        "balance": 0,
+        "userID": 326
+    },
+    "364f2d05-cd61-4c22-b080-137f86b2ebc0": {
+        "balance": 0,
+        "userID": 327
+    },
+    "f0962ee4-b298-4047-b445-398b2f5d194c": {
+        "balance": 0,
+        "userID": 328
+    },
+    "467a8790-3086-45d1-a6dc-0bf0dfbc545c": {
+        "balance": 0,
+        "userID": 329
+    },
+    "a37145f4-aca5-4f2a-a94b-dc0a8f6d7f0e": {
+        "balance": 0,
+        "userID": 330
+    },
+    "f7467a62-866a-4b52-99cf-c48bb987415d": {
+        "balance": 0,
+        "userID": 331
+    },
+    "8bebf59e-2f93-403e-ad09-cf55d3f24c8f": {
+        "balance": 0,
+        "userID": 332
+    },
+    "145382a7-aabc-4d66-99a3-d32d185023a3": {
+        "balance": 0,
+        "userID": 333
+    },
+    "c04c158a-e677-4727-86f0-b1b4bd73b605": {
+        "balance": 0,
+        "userID": 334
+    },
+    "1f6192a4-a4b6-4a1e-a9f4-3f73936c46ba": {
+        "balance": 0,
+        "userID": 335
+    },
+    "5adde457-8929-4564-89fc-df540c837005": {
+        "balance": 0,
+        "userID": 336
+    },
+    "a77c1910-f5b3-43a3-8632-e9263af3b979": {
+        "balance": 0,
+        "userID": 337
+    },
+    "58b8b3d6-cb4b-4c74-9fcf-21b59c6a5c27": {
+        "balance": 0,
+        "userID": 338
+    },
+    "3a0ac3c6-5f34-4c08-a85e-7dbff29a12d1": {
+        "balance": 0,
+        "userID": 339
+    },
+    "848bb028-480f-4d54-b685-a627ddbc02ab": {
+        "balance": 0,
+        "userID": 340
+    },
+    "c0ff2576-9006-4847-82df-15fd73aca568": {
+        "balance": 0,
+        "userID": 341
+    },
+    "6a0b0053-cb77-4ff5-863a-18d13c6b40c8": {
+        "balance": 0,
+        "userID": 342
+    },
+    "dd9ad4b1-c7e1-4849-a408-171276cca79a": {
+        "balance": 0,
+        "userID": 343
+    },
+    "72f3675c-b58b-4bdc-b5f2-ccccec3fb4b7": {
+        "balance": 0,
+        "userID": 344
+    },
+    "915f2573-60ed-4264-b710-009163d419d4": {
+        "balance": 0,
+        "userID": 345
+    },
+    "544b3d82-288a-471a-be98-e38883f7e8fc": {
+        "balance": 0,
+        "userID": 346
+    },
+    "e666694e-3858-451b-a271-cba23f452b6c": {
+        "balance": 0,
+        "userID": 347
+    },
+    "bf715427-1cab-4454-8304-d2336c4c0b1d": {
+        "balance": 0,
+        "userID": 348
+    },
+    "0bfa476a-276c-47ef-9490-47bd9dde6ca6": {
+        "balance": 0,
+        "userID": 349
+    },
+    "c2af6ec5-f281-449d-8cbe-e6768a1c1473": {
+        "balance": 0,
+        "userID": 350
+    },
+    "3a7605b3-d3da-4ecf-9c48-19a890346ae7": {
+        "balance": 0,
+        "userID": 351
+    },
+    "db8cde28-48f9-47e8-a829-5670bb75c2d7": {
+        "balance": 0,
+        "userID": 352
+    },
+    "f2c4b9da-d08f-4a19-a493-d3c4acaab39e": {
+        "balance": 0,
+        "userID": 353
+    },
+    "2b91380a-1e49-424b-a5ee-51ff3a9a702b": {
+        "balance": 0,
+        "userID": 354
+    },
+    "f6ce3945-1e19-4b77-b3d0-9ea6af30397b": {
+        "balance": 0,
+        "userID": 355
+    },
+    "5325c7b9-fe17-4591-938e-8a2b2f856ef0": {
+        "balance": 0,
+        "userID": 356
+    },
+    "session-4c8c9xprlc3": {
+        "balance": 0,
+        "userID": 357
+    },
+    "97fe3af0-45bd-4505-aafd-19b1751c0676": {
+        "balance": 0,
+        "userID": 358
+    },
+    "d4be1853-73f8-4005-95ba-96ed0b190a6b": {
+        "balance": 0,
+        "userID": 359
+    },
+    "9fe60645-4c11-4927-af02-384796f259c3": {
+        "balance": 0,
+        "userID": 360
+    },
+    "458362dc-2b55-491e-a699-29443ca19bf1": {
+        "balance": 0,
+        "userID": 361
+    },
+    "a5932b61-366c-4e5b-8be4-02efd1dbfbe9": {
+        "balance": 0,
+        "userID": 362
+    },
+    "d8fdc504-65bb-4ae0-bdf9-31f9d0d511f3": {
+        "balance": 0,
+        "userID": 363
+    },
+    "dc1d3501-ac98-457b-83ea-60007e8e43b5": {
+        "balance": 0,
+        "userID": 364
+    },
+    "eb8c6f91-fbfd-405f-a2fd-d66e9137ae2d": {
+        "balance": 0,
+        "userID": 365
+    },
+    "86b51914-69ac-4b9d-8c3d-2df161abf66b": {
+        "balance": 0,
+        "userID": 366
+    },
+    "9ecb7fb9-cbab-4fa2-bc2b-2f488645608c": {
+        "balance": 0,
+        "userID": 367
+    },
+    "f138f51c-747c-4646-acc3-11a0cb9a23dd": {
+        "balance": 0,
+        "userID": 368
+    },
+    "8989a6bb-6b7b-4eb5-ba94-f3791eea0556": {
+        "balance": 0,
+        "userID": 369
+    },
+    "8ce25d12-db02-49c0-a489-9297438e4269": {
+        "balance": 0,
+        "userID": 370
+    },
+    "2fc2b82b-3425-4e14-8221-3b1e14eba9de": {
+        "balance": 0,
+        "userID": 371
+    },
+    "ff694295-1ca5-4680-b576-e34f0993348f": {
+        "balance": 0,
+        "userID": 372
+    },
+    "c30aecd6-bc4c-41f0-aa16-7a0dd154367c": {
+        "balance": 0,
+        "userID": 373
+    },
+    "a5fef8df-864b-418b-b844-03f1a0d2b529": {
+        "balance": 0,
+        "userID": 374
+    },
+    "e937cd9f-b9d3-4a57-9227-9cd1a6427700": {
+        "balance": 0,
+        "userID": 375
+    },
+    "98483a4a-e9bd-47a5-95f7-8fcd31a76fab": {
+        "balance": 0,
+        "userID": 376
+    },
+    "fc583001-29bb-4c35-b9fb-10eba940435c": {
+        "balance": 0,
+        "userID": 377
+    },
+    "bfc05da9-cf63-4b9a-a2b9-4e0af8ad6d70": {
+        "balance": 0,
+        "userID": 378
+    },
+    "066211ef-eb15-457c-8eda-38d4350c79df": {
+        "balance": 0,
+        "userID": 379
+    },
+    "ae18f9c7-6152-4ee5-b330-8998d5b23f77": {
+        "balance": 0,
+        "userID": 380
+    },
+    "d9aa6561-9269-4885-a597-f2b4048f5ee6": {
+        "balance": 0,
+        "userID": 381
+    },
+    "ddef2f47-c12f-4cee-9040-7176a0d4f227": {
+        "balance": 0,
+        "userID": 382
+    },
+    "11a723db-2963-4f0f-84ba-9cab7d6874f9": {
+        "balance": 0,
+        "userID": 383
+    },
+    "bdca8261-95a2-431f-8045-02dbfd124e57": {
+        "balance": 0,
+        "userID": 384
+    },
+    "66f185c9-f9d7-4b1c-87a8-aa9e74c51160": {
+        "balance": 0,
+        "userID": 385
+    },
+    "48de174b-9ea1-4641-b068-b25a9a1bd824": {
+        "balance": 0,
+        "userID": 386
+    },
+    "c2999148-6a03-403a-b95d-f94f9dbdcf51": {
+        "balance": 0,
+        "userID": 387
     }
 }

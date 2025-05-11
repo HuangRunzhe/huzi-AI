@@ -8,10 +8,14 @@ import os
 from datetime import datetime
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
-from flask import render_template
+from flask import render_template,send_file
+import edge_tts
+import asyncio
+from gevent import monkey
 
 # 配置日志
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 # 初始化 Flask 应用
 app = Flask(__name__)
@@ -338,7 +342,26 @@ def check_balance():
         "sessionID": session_id  # 显示sessionID，方便前端关联
     })
 
+async def generate_speech(text, output_path="output.mp3"):
+    """使用 Edge TTS 生成语音"""
+    tts = edge_tts.Communicate(text, "zh-CN-XiaoxiaoNeural")  # 语音选择
+    await tts.save(output_path)  # 使用 await 来异步调用 save
+    return output_path
 
+@app.route("/tts")
+async def tts():
+    """TTS API，前端访问 /tts?text=任意文字 获取语音"""
+    text = request.args.get("text", "你好")  # 默认值 "你好"
+    output_path = "static/output001.mp3"
+    
+    # 异步生成语音
+    await generate_speech(text, output_path)
+    
+    # 确保文件生成
+    try:
+        return send_file(output_path, mimetype="audio/mpeg")
+    except Exception as e:
+        return f"Error: {e}"
 
 
 @app.route('/')
